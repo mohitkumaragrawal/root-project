@@ -103,14 +103,22 @@ export function MagicTabs() {
   return (
     <Card className="mt-2 p-2 flex justify-center">
       <Tabs defaultValue="account" className="w-[400px]">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="account">Account</TabsTrigger>
-          <TabsTrigger value="password">Password</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="account">Portfolio</TabsTrigger>
+          <TabsTrigger value="password">Album</TabsTrigger>
+          <TabsTrigger value="video">Video</TabsTrigger>
         </TabsList>
-        <TabsContent value="account">
+        <TabsContent value="Portfolio">
           <Card></Card>
         </TabsContent>
-        <TabsContent value="password"></TabsContent>
+        <TabsContent value="album">
+          {" "}
+          <Card></Card>
+        </TabsContent>
+        <TabsContent value="video">
+          {" "}
+          <Card></Card>
+        </TabsContent>
       </Tabs>
     </Card>
   );
