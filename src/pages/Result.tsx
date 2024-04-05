@@ -3,8 +3,20 @@ import { Button } from "@/components/ui/button";
 // import * as React from "react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
@@ -12,25 +24,44 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Contact, LocateFixed } from "lucide-react";
+import { Contact, LocateFixed, MessageCircle, Phone } from "lucide-react";
 
 //data
 const data = {
   name: "The Vintage Aarone Farm",
   address: "A5, Asola Road, Near Shani dham mandir chhatarpur",
   email: "vintagethefarm@gmail.com",
-  photographs: [],
-  category: "Farm House",
-  capacity: "100-500 Pax",
-  price_per_plate: {
-    veg: 1500,
-    "non-veg": 1800,
-    with_rent: false,
+  Price_Per_Plate: {
+    Veg: "1500 without rent",
+    "Non-Veg": "1800 without rent",
+  },
+
+  facilities: {
+    Capacity: "100-500 Pax",
+    Category: "Farm House",
+    "Function Duration": "Minimum 2 days function with stays",
+  },
+  area: {
+    Accommodation: "5 BR Villa",
+    Pool: "Swimming Pool with poolside area (Popular for poolside Haldi Function)",
+    Lawn: [
+      {
+        name: "Queen Lawn",
+        capacity: "200-250 max",
+        features:
+          "Beautiful Lawn with landscaping. Popular for Mehandi, Sagan, Sangeet, Cocktail function, Day Wedding, etc.",
+      },
+      {
+        name: "King Lawn",
+        capacity: "500-600 max",
+        features:
+          "Front lawn with natural fountain and landscaping. Popular for Wedding function, live music event, Mandap Setup in front of fountain.",
+      },
+    ],
   },
   brief:
-    "We are pleased to introduce our farm house “The Vintage - Aarone Farms” with some salient features. Location: Asola - Chhatarpur. Farm house Area: 3.5 Acre. Accommodation: 5 BR Villa. Swimming Pool: Big Size Swimming pool with pool side area (Popular for pool side Haldi Function). Queen Lawn: Beautiful Lawn with landscaping for the gathering Capacity of 200-250 pax. Popular for - Mehandi, Sagan, Sangeet, cocktail function, Day Wedding, Etc. King Lawn: Front lawn with natural fountain and landscaping for the gathering capacity of 500-600 pax. Popular for - Wedding function, live music event, Mandap Setup in front of fountain. Our Farm house is famous for minimum 2 days function and stays like 1st day you can enjoy your mehandi and sagan/sangeet/cocktail function in queen lawn and next day you can enjoy Haldi at pool Side and wedding in Front King lawn.",
+    "We are pleased to introduce our farm house “The Vintage - Aarone Farms” with some salient features. Location : Asola -Chhatarpur Farm house Area : 3.5 Acre Our farm house is famous for minimum 2 days function and stays like 1st day you can enjoy your mehandi and sagan/ sngeet/ cocktail function in queen lawn and next day you can enjoy Haldi at pool Side and wedding in Front King lawn.",
 };
-
 //main component Result
 
 const Result = () => {
@@ -50,6 +81,8 @@ const LeftBar = () => {
         <ResultCarousel />
       </div>
       <AboutCard />
+      <Facilities />
+
       <MagicTabs />
     </>
   );
@@ -60,19 +93,40 @@ const RightBar = () => {
     <>
       <div>
         <Card>
+          <CardHeader>
+            <CardTitle>Pricing</CardTitle>
+          </CardHeader>
           <CardContent>
-            <p>Starting Price</p>
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold">₹ 3.5 Cr</h2>
+            <div className="grid grid-cols-2 gap-2 ">
+              {Object.entries(data.Price_Per_Plate).map(([key, value]) => (
+                <div key={key}>
+                  <p className="text-lg font-semibold">{key}</p>
+                  <p className="border-b border-gray-500">{value}</p>
+                </div>
+              ))}
             </div>
+            <PricingAccord />
+            <Card className="mt-2 flex p-3  justify-center">
+              <div className="flex justify-center gap-3">
+                <Button
+                  variant="destructive"
+                  className="flex items-center justify-center gap-1"
+                >
+                  <MessageCircle className="animate-spin" />
+                  Message
+                </Button>
+                <Button
+                  // variant="destructive"
+                  className="flex items-center justify-center gap-1 bg-green-700"
+                >
+                  <Phone className="animate-spin" />
+                  Phone
+                </Button>
+              </div>
+            </Card>
           </CardContent>
         </Card>
-        <Card className="mt-2 flex p-3  justify-center">
-          <div className="flex justify-center gap-3">
-            <Button>Contact</Button>
-            <Button>Contact</Button>
-          </div>
-        </Card>
+        <AreaCard />
       </div>
     </>
   );
@@ -104,12 +158,41 @@ const ResultCarousel = () => {
   );
 };
 
+const Facilities = () => {
+  return (
+    <Card className="mt-2">
+      <CardHeader>
+        <CardTitle>Facilities</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="grid grid-cols-2 gap-2 mt-2">
+          <div>
+            <p className="text-lg font-semibold">Capacity</p>
+            <p>{data.facilities.Capacity}</p>
+          </div>
+          <div>
+            <p className="text-lg font-semibold">Category</p>
+            <p>{data.facilities.Category}</p>
+          </div>
+          <div>
+            <p className="text-lg font-semibold">Function Duration</p>
+            <p>{data.facilities["Function Duration"]}</p>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
 const AboutCard = () => {
   return (
     <Card className="mt-2">
-      <CardContent className="p-5">
-        <h2 className="text-2xl font-bold mb-4">{data.name}</h2>
+      <CardHeader>
+        <CardTitle>{data.name}</CardTitle>
+        <CardDescription>About</CardDescription>
+      </CardHeader>
 
+      <CardContent>
         <p className="mt-2 text-gray-600 tracking-wide text-justify">
           {data.brief}
         </p>
@@ -128,7 +211,6 @@ const AboutCard = () => {
 
         <div className="mt-4">
           <div className="flex items-center gap-2">
-            {/* <h2 className="text-xl font-bold mb-2">Contact</h2> */}
             <Contact className="mt-2" />
             <p className="mt-2 text-gray-600"></p>
             <a
@@ -201,5 +283,61 @@ export function MagicTabs() {
     </Card>
   );
 }
+
+const AreaCard = ({}) => {
+  return (
+    <>
+      {" "}
+      <Card className="mt-2">
+        <CardHeader>
+          <CardTitle>Area</CardTitle>
+          <CardDescription>Area</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div>
+            <p className="text-lg font-semibold">Accommodation</p>
+            <p>{data.area.Accommodation}</p>
+          </div>
+          <div className="mt-2">
+            <p className="text-lg font-semibold">Pool</p>
+            <p>{data.area.Pool}</p>
+          </div>
+          <div className="mt-2">
+            <p className="text-lg font-semibold">Lawn</p>
+            <div className="grid grid-cols-1 gap-2">
+              {data.area.Lawn.map((lawn, index) => (
+                <div key={index} className="border p-3 rounded">
+                  <p className="text-lg font-semibold">{lawn.name}</p>
+                  <p className="font-semibold">
+                    <span className="bold mr-1">Capacity</span>
+                    {lawn.capacity}
+                  </p>
+                  <p className="text-justify">{lawn.features}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </>
+  );
+};
+
+const PricingAccord = () => {
+  return (
+    <Accordion type="single" collapsible className="w-full">
+      <AccordionItem value="item-1">
+        <AccordionTrigger>Is it accessible?</AccordionTrigger>
+        <AccordionContent>
+          Yes. It adheres to the WAI-ARIA design pattern.
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  );
+};
+
+const RightForm = () => {
+  return <></>;
+};
 
 export default Result;
