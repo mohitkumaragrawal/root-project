@@ -1,14 +1,7 @@
 import GridLayout from "@/component/GridLyour";
 import { Button } from "@/components/ui/button";
 // import * as React from "react";
-import {
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { Card, CardContent } from "@/components/ui/card";
