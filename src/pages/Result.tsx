@@ -40,6 +40,7 @@ const data = {
     Capacity: "100-500 Pax",
     Category: "Farm House",
     "Function Duration": "Minimum 2 days function with stays",
+    "Farm house Area": "3.5 Acre",
   },
   area: {
     Accommodation: "5 BR Villa",
@@ -81,8 +82,8 @@ const LeftBar = () => {
         <ResultCarousel />
       </div>
       <AboutCard />
-      <Facilities />
 
+      <AreaCard />
       <MagicTabs />
     </>
   );
@@ -101,7 +102,7 @@ const RightBar = () => {
               {Object.entries(data.Price_Per_Plate).map(([key, value]) => (
                 <div key={key}>
                   <p className="text-lg font-semibold">{key}</p>
-                  <p className="border-b border-gray-500">{value}</p>
+                  <p className="border-b border-gray-500">₹{value}</p>
                 </div>
               ))}
             </div>
@@ -126,7 +127,7 @@ const RightBar = () => {
             </Card>
           </CardContent>
         </Card>
-        <AreaCard />
+        <Facilities />
       </div>
     </>
   );
@@ -166,18 +167,12 @@ const Facilities = () => {
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-2 gap-2 mt-2">
-          <div>
-            <p className="text-lg font-semibold">Capacity</p>
-            <p>{data.facilities.Capacity}</p>
-          </div>
-          <div>
-            <p className="text-lg font-semibold">Category</p>
-            <p>{data.facilities.Category}</p>
-          </div>
-          <div>
-            <p className="text-lg font-semibold">Function Duration</p>
-            <p>{data.facilities["Function Duration"]}</p>
-          </div>
+          {Object.entries(data.facilities).map(([key, value]) => (
+            <div key={key}>
+              <p className="text-lg font-semibold">{key}</p>
+              <p>{value}</p>
+            </div>
+          ))}
         </div>
       </CardContent>
     </Card>
@@ -290,7 +285,7 @@ const AreaCard = ({}) => {
       {" "}
       <Card className="mt-2">
         <CardHeader>
-          <CardTitle>Area</CardTitle>
+          <CardTitle>Areas available</CardTitle>
           <CardDescription>Area</CardDescription>
         </CardHeader>
         <CardContent>
@@ -307,7 +302,7 @@ const AreaCard = ({}) => {
             <div className="grid grid-cols-1 gap-2">
               {data.area.Lawn.map((lawn, index) => (
                 <div key={index} className="border p-3 rounded">
-                  <p className="text-lg font-semibold">{lawn.name}</p>
+                  <p className="text-lg font-semibold underline">{lawn.name}</p>
                   <p className="font-semibold">
                     <span className="bold mr-1">Capacity</span>
                     {lawn.capacity}
