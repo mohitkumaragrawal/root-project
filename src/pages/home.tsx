@@ -1,3 +1,4 @@
+import { Hero } from "@/components/home/hero";
 import { getAllDocs } from "@/lib/test-collection";
 import { useEffect } from "react";
 
@@ -11,5 +12,9 @@ export default function HomePage() {
     fetchData();
   }, []);
 
-  return <div>HomePage</div>;
+  return (
+    <>
+      <Hero />
+    </>
+  );
 }

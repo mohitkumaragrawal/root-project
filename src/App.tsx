@@ -3,23 +3,29 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/home";
 import Result from "./pages/Result";
+import Layout from "./pages/layout";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
-  },
-  {
-    path: "/result",
-    element: <Result />,
+    element: <Layout />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/result",
+        element: <Result />,
+      },
+    ],
   },
 ]);
 
 function App() {
   return (
     <>
-      <nav>Nav bar place holder</nav>
-      <RouterProvider router={router} />
+      <RouterProvider router={router}></RouterProvider>
     </>
   );
 }
