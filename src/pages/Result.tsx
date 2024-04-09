@@ -67,7 +67,7 @@ const data = {
 
 const Result = () => {
   return (
-    <div className="w-[100vw] flex justify-center ">
+    <div className="w-[100vw] flex justify-center mt-4">
       <div className="min-w-[80vw] lg:max-w-[80vw] xs:max-w-[95vw] ">
         <GridLayout left={<LeftBar />} right={<RightBar />} />
       </div>
@@ -80,6 +80,7 @@ const LeftBar = () => {
     <>
       <div className="p-1 border rounded">
         <ResultCarousel />
+        {/* <CarouselDefault /> */}
       </div>
       <AboutCard />
 
@@ -113,14 +114,14 @@ const RightBar = () => {
                   variant="destructive"
                   className="flex items-center justify-center gap-1"
                 >
-                  <MessageCircle className="animate-spin" />
+                  <MessageCircle />
                   Message
                 </Button>
                 <Button
                   // variant="destructive"
                   className="flex items-center justify-center gap-1 bg-green-700"
                 >
-                  <Phone className="animate-spin" />
+                  <Phone />
                   Phone
                 </Button>
               </div>
@@ -137,7 +138,7 @@ const ResultCarousel = () => {
   return (
     <>
       <div className="flex justify-center items-center w-full ">
-        <Carousel className=" w-full lg:max-w-lg md:max-w-xs">
+        <Carousel className=" w-full ">
           <CarouselContent>
             {Array.from({ length: 5 }).map((_, index) => (
               <CarouselItem key={index}>
@@ -149,10 +150,7 @@ const ResultCarousel = () => {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <div className="hidden md:block">
-            <CarouselPrevious />
-            <CarouselNext />
-          </div>
+          <div className="hidden md:block"></div>
         </Carousel>
       </div>
     </>
@@ -181,7 +179,7 @@ const Facilities = () => {
 
 const AboutCard = () => {
   return (
-    <Card className="mt-2">
+    <Card className="mt-2 bg-rose-200">
       <CardHeader>
         <CardTitle>{data.name}</CardTitle>
         <CardDescription>About</CardDescription>
@@ -232,13 +230,13 @@ export function MagicTabs() {
         </TabsList>
         <TabsContent value="portfolio">
           <Card>
-            <div className=" gap-2 sm:grid grid-cols-3 ">
+            <div className=" gap-2 grid grid-col-2 md:grid grid-cols-2 ">
               {Array.from({ length: 6 }).map((_, index) => (
                 <img
                   key={index}
                   src={`https://picsum.photos/1000/1000?random=${index}`}
                   alt="random"
-                  className="w-full h-60 object-fill"
+                  className="w-full h-60 object-cover"
                 />
               ))}
             </div>
