@@ -24,7 +24,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Contact, LocateFixed, MessageCircle, Phone } from "lucide-react";
+import { Contact, LocateFixed, Mail, MessageCircle, Phone } from "lucide-react";
 
 //data
 const data = {
@@ -111,10 +111,10 @@ const RightBar = () => {
             <Card className="mt-2 flex p-3  justify-center">
               <div className="flex justify-center gap-3">
                 <Button
-                  variant="destructive"
-                  className="flex items-center justify-center gap-1"
+                  variant="default"
+                  className="flex items-center justify-center gap-1 bg-rose-500 text-white"
                 >
-                  <MessageCircle />
+                  <Mail />
                   Message
                 </Button>
                 <Button
@@ -122,7 +122,7 @@ const RightBar = () => {
                   className="flex items-center justify-center gap-1 bg-green-700"
                 >
                   <Phone />
-                  Phone
+                  Contact
                 </Button>
               </div>
             </Card>
