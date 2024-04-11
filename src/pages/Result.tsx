@@ -25,6 +25,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Contact, LocateFixed, Mail, MessageCircle, Phone } from "lucide-react";
+import Container from "@/components/container";
 
 //data
 const data = {
@@ -67,11 +68,11 @@ const data = {
 
 const Result = () => {
   return (
-    <div className="w-[100vw] flex justify-center mt-4">
-      <div className="min-w-[80vw] lg:max-w-[80vw] xs:max-w-[95vw] ">
+    <Container>
+      <div className="min-w-[80vw] lg:max-w-[80vw] xs:max-w-[95vw] mb-3">
         <GridLayout left={<LeftBar />} right={<RightBar />} />
       </div>
-    </div>
+    </Container>
   );
 };
 
@@ -186,7 +187,7 @@ const AboutCard = () => {
       </CardHeader>
 
       <CardContent>
-        <p className="mt-2 text-gray-600 tracking-wide text-justify">
+        <p className="mt-2 text-gray-600 tracking-wide text-start">
           {data.brief}
         </p>
 

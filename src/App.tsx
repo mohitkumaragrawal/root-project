@@ -5,6 +5,7 @@ import Home from "./pages/home";
 import Result from "./pages/Result";
 import Layout from "./pages/layout";
 import Index from "./pages/index";
+import Gallary from "./pages/Gallary";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -20,8 +21,12 @@ const router = createBrowserRouter([
       },
       {
         path: "/index",
-        element: <Index />
-      }
+        element: <Index />,
+      },
+      {
+        path: "/gallary",
+        element: <Gallary />,
+      },
     ],
   },
 ]);
