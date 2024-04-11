@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/home";
 import Result from "./pages/Result";
 import Layout from "./pages/layout";
-
+import Index from "./pages/index";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -18,6 +18,10 @@ const router = createBrowserRouter([
         path: "/result",
         element: <Result />,
       },
+      {
+        path: "/index",
+        element: <Index />
+      }
     ],
   },
 ]);

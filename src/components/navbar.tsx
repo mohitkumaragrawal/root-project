@@ -7,7 +7,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { venueCity, venueType } from "@/data/venue-category-data";
-
+import { useFirebase } from "../context/Firebase";
 import { cn } from "@/lib/utils";
 import { forwardRef } from "react";
 import { Link } from "react-router-dom";
@@ -57,7 +57,11 @@ export function Navbar() {
     "text-white hover:text-white focus:text-white data-[active]:text-white",
     "data-[active]:aext-bold",
   );
-
+  const firebase = useFirebase();
+  const handleSignin = () => {
+    firebase.signinWithGoogle();
+    console.log("heelo");
+  }
   return (
     <div className="h-16 bg-rose-600 flex items-center text-white px-10 shadow-rose-400 shadow-md">
       <Link to="/">
@@ -128,6 +132,9 @@ export function Navbar() {
                 ))}
               </ul>
             </NavigationMenuContent>
+          </NavigationMenuItem>
+          <NavigationMenuItem >
+            <button onClick={handleSignin} >Sign in</button>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
