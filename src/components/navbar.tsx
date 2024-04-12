@@ -5,6 +5,16 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+
+import {
+  DropdownMenu,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
+
 import { venueCity, venueType } from "@/data/venue-category-data";
 import { useFirebase } from "../context/Firebase";
 import { cn } from "@/lib/utils";
@@ -12,61 +22,9 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 import { IoMdMenu } from "react-icons/io";
-
-const vendorsData = {
-  vendors: [
-    {
-      category: "Photographers",
-      links: [
-        { name: "Photographers", link: "/vendors/pune/wedding-photographers/" },
-      ],
-    },
-    {
-      category: "Makeup",
-      links: [
-        { name: "Bridal Makeup", link: "/vendors/pune/bridal-makeup/" },
-        { name: "Family Makeup", link: "/vendors/pune/family-makeup/" },
-      ],
-    },
-    {
-      category: "Planning & Decor",
-      links: [
-        { name: "Wedding Planners", link: "/vendors/pune/planners/" },
-        { name: "Decorators", link: "/vendors/pune/wedding-decorators/" },
-        {
-          name: "Small Function Decor",
-          link: "/vendors/pune/home-wedding-decorators/",
-        },
-      ],
-    },
-    {
-      category: "Music & Dance",
-      links: [
-        { name: "DJs", link: "/vendors/pune/djs/" },
-        {
-          name: "Sangeet Choreographer",
-          link: "/vendors/pune/sangeet-choreographers/",
-        },
-        {
-          name: "Wedding Entertainment",
-          link: "/vendors/pune/wedding-entertainment/",
-        },
-      ],
-    },
-    {
-      category: "Food",
-      links: [
-        { name: "Catering Services", link: "/vendors/pune/wedding-catering/" },
-        { name: "Cake", link: "/vendors/pune/wedding-cakes/" },
-        {
-          name: "Chaat & Food Stalls",
-          link: "/vendors/pune/wedding-catering/all/chaat-food-stalls/",
-        },
-        { name: "Bartenders", link: "/vendors/pune/bartenders-wedding/" },
-      ],
-    },
-  ],
-};
+import { User } from "firebase/auth";
+import { LogOut } from "lucide-react";
+import { FaGoogle } from "react-icons/fa";
 
 export function Navbar(props: { onOpen: () => void }) {
   const navMenuTriggerStyles = cn(
@@ -78,8 +36,9 @@ export function Navbar(props: { onOpen: () => void }) {
   const firebase = useFirebase();
   const handleSignin = () => {
     firebase.signinWithGoogle();
-    console.log("heelo");
   };
+
+  const firebaseUser = firebase.user as User | null;
 
   return (
     <div className="h-14 bg-primary flex items-center text-white px-5 shadow-rose-400 shadow-lg">
@@ -140,7 +99,7 @@ export function Navbar(props: { onOpen: () => void }) {
           </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuTrigger className={navMenuTriggerStyles}>
-              Vendors
+              <Link to="/vendor">Vendors</Link>
             </NavigationMenuTrigger>
             <NavigationMenuContent>
               <div className="grid grid-cols-3 w-[700px] p-5 pt-3">
@@ -166,10 +125,109 @@ export function Navbar(props: { onOpen: () => void }) {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
+
+      <Link to="/gallary">
+        <Button className="hidden lg:block">Gallary</Button>
+      </Link>
+
       <div className="flex-1" />
-      <Button onClick={handleSignin} variant="secondary">
-        Sign in
-      </Button>
+      {firebaseUser ? (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="outline"
+              size="icon"
+              className="overflow-hidden rounded-full"
+            >
+              <img
+                src={firebaseUser?.photoURL ?? ""}
+                alt="profile imge"
+                referrerPolicy="no-referrer"
+                className="h-full w-full object-cover"
+              />
+            </Button>
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel className="flex gap-4 p-5">
+              <img
+                src={firebaseUser?.photoURL ?? ""}
+                alt="profile imge"
+                className="h-10 w-10 overflow-hidden rounded-full object-cover"
+              />
+              <div>
+                <p>{firebaseUser.displayName}</p>
+                <p className="font-normal opacity-60">{firebaseUser.email}</p>
+              </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => firebase.logOut()}>
+              <LogOut className="mr-3" />
+              Sign out
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      ) : (
+        <Button onClick={handleSignin} variant="secondary">
+          <FaGoogle className="mr-2" />
+          Sign in
+        </Button>
+      )}
     </div>
   );
 }
+
+const vendorsData = {
+  vendors: [
+    {
+      category: "Photographers",
+      links: [
+        { name: "Photographers", link: "/vendors/pune/wedding-photographers/" },
+      ],
+    },
+    {
+      category: "Makeup",
+      links: [
+        { name: "Bridal Makeup", link: "/vendors/pune/bridal-makeup/" },
+        { name: "Family Makeup", link: "/vendors/pune/family-makeup/" },
+      ],
+    },
+    {
+      category: "Planning & Decor",
+      links: [
+        { name: "Wedding Planners", link: "/vendors/pune/planners/" },
+        { name: "Decorators", link: "/vendors/pune/wedding-decorators/" },
+        {
+          name: "Small Function Decor",
+          link: "/vendors/pune/home-wedding-decorators/",
+        },
+      ],
+    },
+    {
+      category: "Music & Dance",
+      links: [
+        { name: "DJs", link: "/vendors/pune/djs/" },
+        {
+          name: "Sangeet Choreographer",
+          link: "/vendors/pune/sangeet-choreographers/",
+        },
+        {
+          name: "Wedding Entertainment",
+          link: "/vendors/pune/wedding-entertainment/",
+        },
+      ],
+    },
+    {
+      category: "Food",
+      links: [
+        { name: "Catering Services", link: "/vendors/pune/wedding-catering/" },
+        { name: "Cake", link: "/vendors/pune/wedding-cakes/" },
+        {
+          name: "Chaat & Food Stalls",
+          link: "/vendors/pune/wedding-catering/all/chaat-food-stalls/",
+        },
+        { name: "Bartenders", link: "/vendors/pune/bartenders-wedding/" },
+      ],
+    },
+  ],
+};

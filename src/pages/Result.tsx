@@ -132,7 +132,9 @@ const RightBar = ({ data }: any) => {
                     <p className="text-lg font-semibold capitalize">
                       {key.replace("_", " ")}
                     </p>
-                    <p className="border-b border-gray-500">₹{value}</p>
+                    <p className="border-b border-gray-500">
+                      ₹{value as string}
+                    </p>
                   </div>
                 ))}
             </div>

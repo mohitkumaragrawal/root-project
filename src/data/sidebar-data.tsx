@@ -1,7 +1,15 @@
+import { FaVenus, FaMusic } from "react-icons/fa";
+import { GiLipstick, GiLotusFlower } from "react-icons/gi";
+import { MdOutlineEco, MdOutlineHomeWork } from "react-icons/md";
+import { PiFlowerLotus } from "react-icons/pi";
+
+import { FaHamburger } from "react-icons/fa";
+
 export const sidebarData = [
   {
     name: "Venues",
     link: "/vendors/pune/wedding-venues/",
+    icon: <MdOutlineHomeWork size={24} />,
     subcategories: [
       {
         name: "Banquet Halls",
@@ -35,23 +43,15 @@ export const sidebarData = [
   },
   {
     name: "Makeup",
+    icon: <GiLipstick size={24} />,
     link: "/vendors/pune/bridal-makeup/",
     subcategories: [
       { name: "Family Makeup", link: "/vendors/pune/family-makeup/" },
     ],
   },
   {
-    name: "Pre Wedding Shoot",
-    link: "/vendors/pune/pre-wedding-shoot-locations/",
-    subcategories: [
-      {
-        name: "Pre Wedding Photographers",
-        link: "/vendors/pune/pre-wedding-shoot/",
-      },
-    ],
-  },
-  {
     name: "Planning & Decor",
+    icon: <PiFlowerLotus size={24} />,
     link: "/vendors/pune/planners/",
     subcategories: [
       { name: "Decorators", link: "/vendors/pune/wedding-decorators/" },
@@ -62,54 +62,9 @@ export const sidebarData = [
     ],
   },
   {
-    name: "Bridal Wear",
-    link: "/vendors/pune/bridal-wear/all/bridal-lehenga-stores/",
-    subcategories: [],
-  },
-  {
-    name: "Groom Wear",
-    link: "/vendors/pune/groom-wear/all/sherwani-for-groom/",
-    subcategories: [],
-  },
-  {
-    name: "Mehndi",
-    link: "/vendors/pune/mehendi-artists/",
-    subcategories: [],
-  },
-  {
-    name: "Jewellery & Accessories",
-    link: "/vendors/pune/wedding-jewellery/",
-    subcategories: [
-      {
-        name: "Flower Jewellery",
-        link: "/vendors/pune/wedding-jewellery/all/flower-jewellery/",
-      },
-      {
-        name: "Bridal Jewellery on Rent",
-        link: "/vendors/pune/wedding-jewellery/all/bridal-jewellery-on-rent/",
-      },
-      { name: "Accessories", link: "/vendors/pune/wedding-accessories/" },
-    ],
-  },
-  {
-    name: "Invites & Gifts",
-    link: "/vendors/pune/wedding-cards/",
-    subcategories: [
-      { name: "Favors", link: "/vendors/pune/wedding-favors/" },
-      { name: "Trousseau Packers", link: "/vendors/pune/trousseau-packers/" },
-      {
-        name: "Invitation Gifts",
-        link: "/vendors/pune/wedding-favors/all/wedding-invitation-gifts/",
-      },
-      {
-        name: "Mehndi Favors",
-        link: "/vendors/pune/wedding-favors/all/mehndi-favors/",
-      },
-    ],
-  },
-  {
     name: "Music & Dance",
     link: "/vendors/pune/djs/",
+    icon: <FaMusic size={24} />,
     subcategories: [
       {
         name: "Sangeet Choreographer",
@@ -123,6 +78,7 @@ export const sidebarData = [
   },
   {
     name: "Food",
+    icon: <FaHamburger size={24} />,
     link: "/vendors/pune/wedding-catering/",
     subcategories: [
       { name: "Cake", link: "/vendors/pune/wedding-cakes/" },
@@ -135,3 +91,5 @@ export const sidebarData = [
     ],
   },
 ];
+
+export const sidebarLinks = [];

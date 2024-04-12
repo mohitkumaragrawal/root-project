@@ -6,6 +6,7 @@ import {
   signInWithPopup,
   onAuthStateChanged,
   updateProfile,
+  signOut,
 } from "firebase/auth";
 import {
   getFirestore,
@@ -55,6 +56,9 @@ export const FirebaseProvider = (props) => {
     });
   }, []);
 
+  const logOut = () => {
+    signOut(firebaseAuth);
+  };
   const signinWithGoogle = () => signInWithPopup(firebaseAuth, googleProvider);
 
   // Function to view each vendor details [Argument example: photograph, venue]

@@ -14,7 +14,8 @@ export function Hero() {
         className="absolute inset-0 bg-cover z-[-1]"
         style={{
           backgroundImage:
-            "url(https://image.wedmegood.com/resized/1900X/uploads/city_bg_image/1/delhi_bg.jpeg), linear-gradient(to top, black, transparent)",
+            "url(https://i.ibb.co/vLGqjtZ/hero-image.jpg), linear-gradient(to top, black, transparent)",
+          filter: "blur(2px)",
           backgroundBlendMode: "overlay",
           backgroundPosition: "center",
         }}
