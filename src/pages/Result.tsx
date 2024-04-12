@@ -153,7 +153,7 @@ const ResultCarousel = () => {
                 <img
                   src={`https://picsum.photos/1000/1000?random=${index}`}
                   alt="random"
-                  className="w-full h-96 object-fill"
+                  className="w-full h-96  md:h-[27rem] object-fill"
                 />
               </CarouselItem>
             ))}
