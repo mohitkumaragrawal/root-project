@@ -1,45 +1,90 @@
-import * as React from "react"
-
-import { Button } from "@/components/ui/button"
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { CheckIcon, IndianRupee, MapPinIcon } from "lucide-react";
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-
-export function CardWithForm() {
-    return (
-        <Card className="">
-            <div className="relative">
-                <img
-                    src="https://picsum.photos/1000/1000?random=4"
-                    alt="Project Image"
-                    className="w-full h-[200px] object-cover rounded-t-lg"
-                />
-            </div>
-            <CardHeader>
-                <CardTitle>Create project</CardTitle>
-                <CardDescription>Deploy your new project in one-click.</CardDescription>
-            </CardHeader>
-
-            <CardContent>
-                <p>New Delhi</p>
-            </CardContent>
-            <CardFooter className="flex justify-between">
-
-            </CardFooter>
-        </Card>
-    )
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+interface Props {
+  image_url: string;
+  title: string;
+  location: string;
+  rates: {
+    service: string;
+    rate: number;
+  }[];
+  features: string[];
 }
+
+export function CardWithForm(props: Props) {
+  return (
+    <Card className="">
+      <div className="relative">
+        <img
+          src={props.image_url}
+          alt={props.title}
+          className="w-full h-[200px] object-cover rounded-t-lg"
+        />
+      </div>
+      <CardHeader className="pb-3">
+        <CardTitle className="text-lg">{props.title}</CardTitle>
+        <CardDescription className="flex text-gray-600 items-center">
+          <MapPinIcon className="mr-2" /> {props.location}
+        </CardDescription>
+      </CardHeader>
+
+      <CardContent>
+        <div className="flex gap-8">
+          {props.rates.map((rate, index) => (
+            <div className="space-y-1" key={index}>
+              <p className="text-sm text-gray-600">{rate.service}</p>
+              <p className="text-lg text-gray-800 flex items-center font-bold">
+                <IndianRupee size={18} /> {rate.rate}
+              </p>
+            </div>
+          ))}
+        </div>
+      </CardContent>
+      <CardFooter className="flex gap-3">
+        {props.features.slice(0, 2).map((f, idx) => {
+          return (
+            <p
+              className="text-gray-600 text-xs px-2 py-1 bg-gray-200"
+              key={idx}
+            >
+              {f}
+            </p>
+          );
+        })}
+
+        {props.features.length > 2 && (
+          <HoverCard openDelay={0} closeDelay={0}>
+            <HoverCardTrigger>
+              <p className="text-xs text-pink-500 underline underline-offset-2 cursor-pointer">
+                +{props.features.length - 2} More
+              </p>
+            </HoverCardTrigger>
+            <HoverCardContent side="right" className="flex flex-col">
+              {props.features.slice(2).map((f, idx) => (
+                <p
+                  className="text-gray-600 text-xs px-2 py-1 flex items-center"
+                  key={idx}
+                >
+                  <CheckIcon size={16} className="mr-2 text-green-500" /> {f}
+                </p>
+              ))}
+            </HoverCardContent>
+          </HoverCard>
+        )}
+      </CardFooter>
+    </Card>
+  );
+}
+

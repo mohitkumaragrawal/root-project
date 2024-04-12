@@ -20,7 +20,7 @@ export function Hero() {
         }}
       ></div>
 
-      <div className="flex flex-col gap-3 text-center items-center h-full justify-end text-white">
+      <div className="flex flex-col gap-3 text-center items-center h-full justify-end text-white px-5">
         <p className="text-4xl font-bold">Your Wedding Your Way</p>
         <p className="text-xl">
           Find the best wedding vendors with thousands of trusted reviews
