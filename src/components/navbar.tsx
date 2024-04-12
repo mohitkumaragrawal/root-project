@@ -11,6 +11,8 @@ import { useFirebase } from "../context/Firebase";
 import { cn } from "@/lib/utils";
 import { forwardRef } from "react";
 import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { FaHamburger } from "react-icons/fa";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -50,7 +52,7 @@ const components: { title: string; href: string; description: string }[] = [
   },
 ];
 
-export function Navbar() {
+export function Navbar(props: { onOpen: () => void }) {
   const navMenuTriggerStyles = cn(
     "bg-transparent hover:bg-transparent focus:bg-transparent",
     "data-[active]:bg-transparent data-[state=open]:bg-transparent",
@@ -61,14 +63,19 @@ export function Navbar() {
   const handleSignin = () => {
     firebase.signinWithGoogle();
     console.log("heelo");
-  }
+  };
+
   return (
-    <div className="h-16 bg-rose-600 flex items-center text-white px-10 shadow-rose-400 shadow-md">
+    <div className="h-16 bg-primary flex items-center text-white px-10 shadow-rose-400 shadow-md">
+      <Button onClick={props.onOpen} className="md:hidden">
+        <FaHamburger size={24} />
+      </Button>
+
       <Link to="/">
         <div className="mr-10 text-lg font-bold">RooT</div>
       </Link>
 
-      <NavigationMenu>
+      <NavigationMenu className="hidden md:block">
         <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuTrigger className={navMenuTriggerStyles}>
@@ -133,8 +140,8 @@ export function Navbar() {
               </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>
-          <NavigationMenuItem >
-            <button onClick={handleSignin} >Sign in</button>
+          <NavigationMenuItem>
+            <button onClick={handleSignin}>Sign in</button>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>

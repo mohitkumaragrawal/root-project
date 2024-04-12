@@ -95,7 +95,7 @@ function FooterLinks() {
 export function Footer() {
   return (
     <div className="border-t-2 border-rose-300 pb-12">
-      <Container className="sm:px-6">
+      <Container className="px-4 sm:px-6">
         <p className="font-bold text-lg text-rose-500 my-3">
           RooT - Wedding Planner
         </p>

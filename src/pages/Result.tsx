@@ -1,6 +1,8 @@
 import GridLayout from "@/component/GridLyour";
 import { Button } from "@/components/ui/button";
 // import * as React from "react";
+//
+import Autoplay from "embla-carousel-react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -139,7 +141,12 @@ const ResultCarousel = () => {
   return (
     <>
       <div className="flex justify-center items-center w-full ">
-        <Carousel className=" w-full ">
+        <Carousel
+          className=" w-full "
+          opts={{
+            loop: true,
+          }}
+        >
           <CarouselContent>
             {Array.from({ length: 5 }).map((_, index) => (
               <CarouselItem key={index}>
