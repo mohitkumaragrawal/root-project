@@ -153,7 +153,7 @@ export function Navbar(props: { onOpen: () => void }) {
                       {vendor.links.map((link) => (
                         <li
                           key={link.name}
-                          className="text-gray-800 hover:underline cursor-pointer"
+                          className="text-gray-800 hover:underline cursor-pointer text-sm"
                         >
                           {link.name}
                         </li>
