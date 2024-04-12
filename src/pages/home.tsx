@@ -1,4 +1,5 @@
 import Container from "@/components/container";
+import { Gallary } from "@/components/home/gallary";
 import { Hero } from "@/components/home/hero";
 import { PopuplarSearches } from "@/components/home/popular-searches";
 import { WeddingCategories } from "@/components/home/wedding-categories";
@@ -21,6 +22,7 @@ export default function HomePage() {
       <Container>
         <PopuplarSearches />
         <WeddingCategories />
+        <Gallary />
       </Container>
     </>
   );

@@ -36,11 +36,5 @@ export const popularSearches = {
       image_url:
         "https://image.wedmegood.com/resized/300X/uploads/banner_image/5/caterers.jpg",
     },
-    {
-      title: "Invitations in Pune",
-      link: "vendors/pune/wedding-cards/",
-      image_url:
-        "https://image.wedmegood.com/resized/300X/uploads/banner_image/4/cards.jpg",
-    },
   ],
 };
