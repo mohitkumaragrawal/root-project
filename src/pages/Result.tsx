@@ -11,6 +11,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import React, { useEffect, useState } from "react";
+import { useFirebase } from "@/context/Firebase";
 
 import {
   Card,
@@ -23,8 +25,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Contact, LocateFixed, Mail, MessageCircle, Phone } from "lucide-react";
 import Container from "@/components/container";
@@ -69,31 +69,54 @@ const data = {
 //main component Result
 
 const Result = () => {
+  const { viewVendors } = useFirebase();
+  const [vendorsData, setVendorsData] = useState([]);
+  useEffect(() => {
+    console.log("clicked");
+    console.log(viewVendors);
+    const fetchData = async () => {
+      try {
+        await viewVendors("venue").then((vendorsD) => {
+          setVendorsData(vendorsD);
+        });
+      } catch (error) {
+        console.error("Error fetching vendors:", error);
+      }
+    };
+    fetchData();
+  }, [viewVendors]);
+  // return <></>;
+
   return (
     <Container>
       <div className="min-w-[80vw] lg:max-w-[80vw] xs:max-w-[95vw] mb-3">
-        <GridLayout left={<LeftBar />} right={<RightBar />} />
+        {vendorsData && vendorsData[0] && (
+          <GridLayout
+            left={<LeftBar data={vendorsData[1]} />}
+            right={<RightBar data={vendorsData[1]} />}
+          />
+        )}
       </div>
     </Container>
   );
 };
 
-const LeftBar = () => {
+const LeftBar = ({ data }: any) => {
+  // console.log("left", data);
   return (
     <>
       <div className="p-1 border rounded">
-        <ResultCarousel />
-        {/* <CarouselDefault /> */}
+        <ResultCarousel urls={data?.urls ?? []} />
       </div>
-      <AboutCard />
+      <AboutCard data={data} />
 
-      <AreaCard />
-      <MagicTabs />
+      <AreaCard data={data} />
+      <MagicTabs urls={data?.urls ?? []} />
     </>
   );
 };
 
-const RightBar = () => {
+const RightBar = ({ data }: any) => {
   return (
     <>
       <div>
@@ -103,30 +126,37 @@ const RightBar = () => {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 gap-2 ">
-              {Object.entries(data.Price_Per_Plate).map(([key, value]) => (
-                <div key={key}>
-                  <p className="text-lg font-semibold">{key}</p>
-                  <p className="border-b border-gray-500">₹{value}</p>
-                </div>
-              ))}
+              {data?.price_per_plate &&
+                Object.entries(data?.price_per_plate).map(([key, value]) => (
+                  <div key={key}>
+                    <p className="text-lg font-semibold capitalize">
+                      {key.replace("_", " ")}
+                    </p>
+                    <p className="border-b border-gray-500">₹{value}</p>
+                  </div>
+                ))}
             </div>
             <PricingAccord />
             <Card className="mt-2 flex p-3  justify-center">
               <div className="flex justify-center gap-3">
-                <Button
-                  variant="default"
-                  className="flex items-center justify-center gap-1 bg-rose-500 text-white"
-                >
-                  <Mail />
-                  Message
-                </Button>
-                <Button
-                  // variant="destructive"
-                  className="flex items-center justify-center gap-1 bg-green-700"
-                >
-                  <Phone />
-                  Contact
-                </Button>
+                <a href={`mailto:${data.email}`}>
+                  <Button
+                    variant="default"
+                    className="flex items-center justify-center gap-1 bg-rose-500 text-white"
+                  >
+                    <Mail />
+                    Message
+                  </Button>
+                </a>
+                <a href="tel:8700921823">
+                  <Button
+                    // variant="destructive"
+                    className="flex items-center justify-center gap-1 bg-green-700"
+                  >
+                    <Phone />
+                    Contact
+                  </Button>
+                </a>
               </div>
             </Card>
           </CardContent>
@@ -137,7 +167,8 @@ const RightBar = () => {
   );
 };
 
-const ResultCarousel = () => {
+const ResultCarousel = ({ urls }: any) => {
+  // console.log(urls);
   return (
     <>
       <div className="flex justify-center items-center w-full ">
@@ -148,10 +179,10 @@ const ResultCarousel = () => {
           }}
         >
           <CarouselContent>
-            {Array.from({ length: 5 }).map((_, index) => (
+            {urls?.map((img, index) => (
               <CarouselItem key={index}>
                 <img
-                  src={`https://picsum.photos/1000/1000?random=${index}`}
+                  src={img}
                   alt="random"
                   className="w-full h-96  md:h-[27rem] object-fill"
                 />
@@ -185,7 +216,7 @@ const Facilities = () => {
   );
 };
 
-const AboutCard = () => {
+const AboutCard = ({ data }) => {
   return (
     <Card className="mt-2 bg-rose-200">
       <CardHeader>
@@ -227,22 +258,24 @@ const AboutCard = () => {
   );
 };
 
-export function MagicTabs() {
+export function MagicTabs({ urls }) {
+  const Url = urls.slice(0, 9);
+
   return (
     <Card className="mt-2 p-2 flex justify-center">
       <Tabs defaultValue="portfolio" className="w-[800px]">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
           <TabsTrigger value="album">Album</TabsTrigger>
-          <TabsTrigger value="video">Video</TabsTrigger>
+          {/* <TabsTrigger value="video">Video</TabsTrigger> */}
         </TabsList>
         <TabsContent value="portfolio">
           <Card>
-            <div className=" gap-2 grid grid-col-2 md:grid grid-cols-2 ">
-              {Array.from({ length: 6 }).map((_, index) => (
+            <div className=" gap-2 grid grid-col-3 md:grid grid-cols-3 ">
+              {Url?.map((img, index) => (
                 <img
                   key={index}
-                  src={`https://picsum.photos/1000/1000?random=${index}`}
+                  src={img}
                   alt="random"
                   className="w-full h-60 object-cover"
                 />
@@ -254,38 +287,38 @@ export function MagicTabs() {
           {" "}
           <Card>
             <div className="lg:grid grid-cols-3 gap-2 ">
-              {Array.from({ length: 6 }).map((_, index) => (
+              {Url?.map((img, index) => (
                 <img
                   key={index}
-                  src={`https://picsum.photos/1000/1000?random=${index}`}
+                  src={img}
                   alt="random"
-                  className="w-full h-60 object-fill"
+                  className="w-full h-60 object-cover"
                 />
               ))}
             </div>
           </Card>
         </TabsContent>
-        <TabsContent value="video">
+        {/* <TabsContent value="video">
           {" "}
           <Card>
             <div className="lg:grid grid-cols-3 gap-2 ">
-              {Array.from({ length: 6 }).map((_, index) => (
+              {urls.map((img, index) => (
                 <img
                   key={index}
-                  src={`https://picsum.photos/1000/1000?random=${index}`}
+                  src={img}
                   alt="random"
-                  className="w-full h-60 object-fill"
+                  className="w-full h-60 object-cover"
                 />
               ))}
             </div>
           </Card>
-        </TabsContent>
+        </TabsContent> */}
       </Tabs>
     </Card>
   );
 }
 
-const AreaCard = ({}) => {
+const AreaCard = ({ data }) => {
   return (
     <>
       {" "}
@@ -295,25 +328,24 @@ const AreaCard = ({}) => {
           <CardDescription>Area</CardDescription>
         </CardHeader>
         <CardContent>
-          <div>
+          {/* <div>
             <p className="text-lg font-semibold">Accommodation</p>
             <p>{data.area.Accommodation}</p>
-          </div>
-          <div className="mt-2">
+          </div> */}
+          {/* <div className="mt-2">
             <p className="text-lg font-semibold">Pool</p>
             <p>{data.area.Pool}</p>
-          </div>
+          </div> */}
           <div className="mt-2">
             <p className="text-lg font-semibold">Lawn</p>
             <div className="grid grid-cols-1 gap-2">
-              {data.area.Lawn.map((lawn, index) => (
+              {data.lawns.map((lawn, index) => (
                 <div key={index} className="border p-3 rounded">
                   <p className="text-lg font-semibold underline">{lawn.name}</p>
                   <p className="font-semibold">
                     <span className="bold mr-1">Capacity</span>
-                    {lawn.capacity}
+                    {lawn.category}
                   </p>
-                  <p className="text-justify">{lawn.features}</p>
                 </div>
               ))}
             </div>
@@ -330,15 +362,11 @@ const PricingAccord = () => {
       <AccordionItem value="item-1">
         <AccordionTrigger>Is it accessible?</AccordionTrigger>
         <AccordionContent>
-          Yes. It adheres to the WAI-ARIA design pattern.
+          Yes. It is easy accessible from main road.
         </AccordionContent>
       </AccordionItem>
     </Accordion>
   );
-};
-
-const RightForm = () => {
-  return <></>;
 };
 
 export default Result;
