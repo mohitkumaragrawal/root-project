@@ -44,7 +44,7 @@ const googleProvider = new GoogleAuthProvider();
 
 export const FirebaseProvider = (props) => {
     const [user, setUser] = useState(null);
-
+    const [vendors, setVendors] = useState([]);
     useEffect(() => {
         onAuthStateChanged(firebaseAuth, (user) => {
             if (user) {
@@ -58,11 +58,54 @@ export const FirebaseProvider = (props) => {
 
     const signinWithGoogle = () => signInWithPopup(firebaseAuth, googleProvider);
 
+    // Function to view each vendor details [Argument example: photograph, venue]
+    const viewVendors = async (vendorType) => {
+        try {
+            const vendorRef = doc(firestore, "vendors", vendorType + "s");
+            const objRef = collection(vendorRef, vendorType);
+            const objSnapshot = await getDocs(objRef);
+            const venues = objSnapshot.docs.map((doc) => doc.data());
+        } catch (error) {
+            console.error("Error viewing:", error);
+        }
+    };
+
+    // Function to create a new vendor
+    const createVendor = async (images, venueData, selectedVendorType) => {
+        try {
+
+            const imageUrls = [];
+            const vendorRef = doc(firestore, "vendors", selectedVendorType + "s");
+            const venuesRef = collection(vendorRef, selectedVendorType);
+
+            for (const image of images) {
+                const formData = new FormData();
+                formData.append("image", image);
+                const response = await fetch("https://api.imgbb.com/1/upload?key=15b0ad71016f2b91dcd97a7f1eefee3d", {
+                    method: "POST",
+                    body: formData
+                });
+                const result = await response.json();
+                const imageUrl = result.data.url;
+                imageUrls.push(imageUrl);
+            }
+            const jsonObject = JSON.parse(venueData)
+            jsonObject.urls = imageUrls;
+            await addDoc(venuesRef, jsonObject);
+
+            console.log("Venue created successfully!");
+        } catch (error) {
+            console.error("Error creating venue:", error);
+        }
+    };
+
     return (
         <FirebaseContext.Provider
             value={{
                 signinWithGoogle,
-                user
+                user,
+                viewVendors,
+                createVendor,
             }}
         >
             {props.children}
