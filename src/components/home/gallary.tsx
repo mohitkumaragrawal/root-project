@@ -1,3 +1,6 @@
+import { Link } from "react-router-dom";
+import { Button } from "../ui/button";
+
 const data = {
   gallery: [
     {
@@ -37,10 +40,11 @@ export function Gallary() {
   return (
     <section className="mb-12">
       <h2 className="text-xl font-bold my-5">Gallary to Look for</h2>
-      <div className="grid sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-5">
+      <div className="grid sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-5 place-items-center">
         {data.gallery.map((g, idx) => (
           <div
-            className="border-2 border-pink-300 rounded-md overflow-hidden shadow-lg shadow-pink-200"
+            className="border-2 border-pink-300 rounded-md overflow-hidden shadow-lg shadow-pink-200 w-full h-fullk
+            "
             key={idx}
           >
             <img
@@ -52,6 +56,12 @@ export function Gallary() {
             <p className="p-3 font-bold">{g.category}</p>
           </div>
         ))}
+
+        <div className="items-center">
+          <Link to="/gallary">
+            <Button>Show More</Button>
+          </Link>
+        </div>
       </div>
     </section>
   );
