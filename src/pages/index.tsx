@@ -13,18 +13,11 @@ const Result = () => {
       {cardCount.map((_, index) => (
         <div className="w-[400px]">
           <CardWithForm key={index} />
+
         </div>
       ))}
 
-      {/* <div className="flex justify-center mt-4"> */}
-      {/*   <div className="min-w-[80vw] lg:max-w-[80vw] xs:max-w-[95vw] flex flex-wrap justify-around"> */}
-      {/*     {cardCount.map((_, index) => ( */}
-      {/*       <div className="w-[31%]"> */}
-      {/*         <CardWithForm key={index} /> */}
-      {/*       </div> */}
-      {/*     ))} */}
-      {/*   </div> */}
-      {/* </div> */}
+
     </Container>
   );
 };

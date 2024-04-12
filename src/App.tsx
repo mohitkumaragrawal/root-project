@@ -6,6 +6,8 @@ import Result from "./pages/Result";
 import Layout from "./pages/layout";
 import Index from "./pages/index";
 import Gallary from "./pages/Gallary";
+import Admin from "./pages/admin";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -27,6 +29,10 @@ const router = createBrowserRouter([
         path: "/gallary",
         element: <Gallary />,
       },
+      {
+        path: "/admin",
+        element: <Admin />,
+      }
     ],
   },
 ]);
