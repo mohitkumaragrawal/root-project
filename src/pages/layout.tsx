@@ -4,6 +4,7 @@ import { Footer } from "@/components/footer";
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
 import { Sidebar } from "@/components/sidebar";
+import DelayedForm from "@/components/delayed-form";
 
 export default function Layout() {
   const [open, setOpen] = useState(false);
@@ -12,6 +13,7 @@ export default function Layout() {
     <>
       <Navbar onOpen={() => setOpen(true)} />
       <Sidebar open={open} onOpenChange={setOpen} />
+      <DelayedForm />
       <Outlet />
       <Footer />
     </>

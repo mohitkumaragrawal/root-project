@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
+import { IconRight } from "react-day-picker";
 
 const data = {
   gallery: [
@@ -40,7 +41,7 @@ export function Gallary() {
   return (
     <section className="mb-12">
       <h2 className="text-xl font-bold my-5">Gallary to Look for</h2>
-      <div className="grid sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-5 place-items-center">
+      <div className="grid sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-[1fr_1fr_1fr_1fr_1fr_0.3fr] gap-5 place-items-center">
         {data.gallery.map((g, idx) => (
           <div
             className="border-2 border-pink-300 rounded-md overflow-hidden shadow-lg shadow-pink-200 w-full h-fullk
@@ -57,9 +58,11 @@ export function Gallary() {
           </div>
         ))}
 
-        <div className="items-center">
+        <div className="items-center animate-bounce-horz">
           <Link to="/gallary">
-            <Button>Show More</Button>
+            <Button className="size-12 rounded-full">
+              <IconRight />
+            </Button>
           </Link>
         </div>
       </div>

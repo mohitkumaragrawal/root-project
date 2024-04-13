@@ -25,10 +25,6 @@ export default function HomePage() {
         <WeddingCategories />
         <Gallary />
       </Container>
-
-      <div className="animate-spin size-10 origin-center">
-        <Loader />
-      </div>
     </>
   );
 }
