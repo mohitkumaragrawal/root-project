@@ -28,6 +28,21 @@ import {
 } from "@/components/ui/carousel";
 import { Contact, LocateFixed, Mail, MessageCircle, Phone } from "lucide-react";
 import Container from "@/components/container";
+import {
+  Breadcrumb,
+  BreadcrumbEllipsis,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 //data
 const data = {
@@ -88,21 +103,25 @@ const Result = () => {
   // return <></>;
 
   return (
-    <Container>
-      <div className="min-w-[80vw] lg:max-w-[80vw] xs:max-w-[95vw] mb-3">
-        {vendorsData && vendorsData[0] && (
-          <GridLayout
-            left={<LeftBar data={vendorsData[1]} />}
-            right={<RightBar data={vendorsData[1]} />}
-          />
-        )}
-      </div>
-    </Container>
+    <>
+      <Container>
+        <div className="mb-4 ml-3">
+          <BreadcrumbNew />
+        </div>
+        <div className="min-w-[80vw] lg:max-w-[80vw] xs:max-w-[95vw] mb-3">
+          {vendorsData && vendorsData[0] && (
+            <GridLayout
+              left={<LeftBar data={vendorsData[1]} />}
+              right={<RightBar data={vendorsData[1]} />}
+            />
+          )}
+        </div>
+      </Container>
+    </>
   );
 };
 
 const LeftBar = ({ data }: any) => {
-  // console.log("left", data);
   return (
     <>
       <div className="p-1 border rounded">
@@ -121,24 +140,26 @@ const LeftBar = ({ data }: any) => {
 
 const MobilePricing = ({ data }: any) => {
   return (
-    <Card>
+    <Card className="border">
       <CardHeader>
         <CardTitle>Pricing</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-2 gap-2 ">
+        <div className="grid grid-cols-2 gap-1 ">
           {data?.price_per_plate &&
             Object.entries(data?.price_per_plate).map(([key, value]) => (
               <div key={key}>
                 <p className="text-lg font-semibold capitalize">
                   {key.replace("_", " ")}
                 </p>
-                <p className="border-b border-gray-500">₹{value as string}</p>
+                <p className=" p-1 pl-4 shadow-sm shadow-red-300 rounded-lg border-gray-500 mt-1">
+                  ₹{value as string}
+                </p>
               </div>
             ))}
         </div>
         {/* <PricingAccord /> */}
-        <Card className="mt-2 flex p-3  justify-center">
+        <div className="mt-2 flex p-3  justify-center">
           <div className="flex justify-center gap-3">
             <a href={`mailto:${data.email}`}>
               <Button
@@ -159,7 +180,7 @@ const MobilePricing = ({ data }: any) => {
               </Button>
             </a>
           </div>
-        </Card>
+        </div>
       </CardContent>
     </Card>
   );
@@ -169,26 +190,26 @@ const RightBar = ({ data }: any) => {
   return (
     <>
       <div>
-        <Card>
+        <Card className="border">
           <CardHeader>
             <CardTitle>Pricing</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-2 gap-2 ">
+            <div className="grid grid-cols-2 gap-1 ">
               {data?.price_per_plate &&
                 Object.entries(data?.price_per_plate).map(([key, value]) => (
                   <div key={key}>
                     <p className="text-lg font-semibold capitalize">
                       {key.replace("_", " ")}
                     </p>
-                    <p className="border-b border-gray-500">
+                    <p className=" p-1 pl-4 shadow-sm shadow-red-300 rounded-lg border-gray-500 mt-1">
                       ₹{value as string}
                     </p>
                   </div>
                 ))}
             </div>
             <PricingAccord />
-            <Card className="mt-2 flex p-3  justify-center">
+            <div className="mt-2 flex p-3  justify-center">
               <div className="flex justify-center gap-3">
                 <a href={`mailto:${data.email}`}>
                   <Button
@@ -209,7 +230,7 @@ const RightBar = ({ data }: any) => {
                   </Button>
                 </a>
               </div>
-            </Card>
+            </div>
           </CardContent>
         </Card>
         <Facilities />
@@ -269,7 +290,7 @@ const Facilities = () => {
 
 const AboutCard = ({ data }) => {
   return (
-    <Card className="mt-2 bg-rose-200">
+    <Card className="mt-2 bg-rose-200 shadow-rose-400">
       <CardHeader>
         <CardTitle>{data.name}</CardTitle>
         <CardDescription>About</CardDescription>
@@ -318,7 +339,6 @@ export function MagicTabs({ urls }) {
         <TabsList className="grid w-full grid-cols-1">
           <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
           {/* <TabsTrigger value="album">Album</TabsTrigger> */}
-          {/* <TabsTrigger value="video">Video</TabsTrigger> */}
         </TabsList>
         <TabsContent value="portfolio">
           <Card>
@@ -339,21 +359,6 @@ export function MagicTabs({ urls }) {
           <Card>
             <div className="lg:grid grid-cols-3 gap-2 ">
               {Url?.map((img, index) => (
-                <img
-                  key={index}
-                  src={img}
-                  alt="random"
-                  className="w-full h-60 object-cover"
-                />
-              ))}
-            </div>
-          </Card>
-        </TabsContent> */}
-        {/* <TabsContent value="video">
-          {" "}
-          <Card>
-            <div className="lg:grid grid-cols-3 gap-2 ">
-              {urls.map((img, index) => (
                 <img
                   key={index}
                   src={img}
@@ -419,5 +424,22 @@ const PricingAccord = () => {
     </Accordion>
   );
 };
+
+export function BreadcrumbNew() {
+  return (
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/">Home</BreadcrumbLink>
+        </BreadcrumbItem>
+
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage className="text-rose-400">Result</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  );
+}
 
 export default Result;
