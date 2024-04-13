@@ -111,8 +111,57 @@ const LeftBar = ({ data }: any) => {
       <AboutCard data={data} />
 
       <AreaCard data={data} />
+      <div className="block sm:hidden mt-1">
+        <MobilePricing data={data} />
+      </div>
       <MagicTabs urls={data?.urls ?? []} />
     </>
+  );
+};
+
+const MobilePricing = ({ data }: any) => {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Pricing</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="grid grid-cols-2 gap-2 ">
+          {data?.price_per_plate &&
+            Object.entries(data?.price_per_plate).map(([key, value]) => (
+              <div key={key}>
+                <p className="text-lg font-semibold capitalize">
+                  {key.replace("_", " ")}
+                </p>
+                <p className="border-b border-gray-500">₹{value as string}</p>
+              </div>
+            ))}
+        </div>
+        {/* <PricingAccord /> */}
+        <Card className="mt-2 flex p-3  justify-center">
+          <div className="flex justify-center gap-3">
+            <a href={`mailto:${data.email}`}>
+              <Button
+                variant="default"
+                className="flex items-center justify-center gap-1 bg-rose-500 text-white"
+              >
+                <Mail />
+                Message
+              </Button>
+            </a>
+            <a href="tel:8700921823">
+              <Button
+                // variant="destructive"
+                className="flex items-center justify-center gap-1 bg-green-700"
+              >
+                <Phone />
+                Contact
+              </Button>
+            </a>
+          </div>
+        </Card>
+      </CardContent>
+    </Card>
   );
 };
 
@@ -266,14 +315,14 @@ export function MagicTabs({ urls }) {
   return (
     <Card className="mt-2 p-2 flex justify-center">
       <Tabs defaultValue="portfolio" className="w-[800px]">
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-1">
           <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
-          <TabsTrigger value="album">Album</TabsTrigger>
+          {/* <TabsTrigger value="album">Album</TabsTrigger> */}
           {/* <TabsTrigger value="video">Video</TabsTrigger> */}
         </TabsList>
         <TabsContent value="portfolio">
           <Card>
-            <div className=" gap-2 grid grid-col-3 md:grid grid-cols-3 ">
+            <div className=" gap-1 grid grid-cols-2 md:grid-cols-3 ">
               {Url?.map((img, index) => (
                 <img
                   key={index}
@@ -285,7 +334,7 @@ export function MagicTabs({ urls }) {
             </div>
           </Card>
         </TabsContent>
-        <TabsContent value="album">
+        {/* <TabsContent value="album">
           {" "}
           <Card>
             <div className="lg:grid grid-cols-3 gap-2 ">
@@ -299,7 +348,7 @@ export function MagicTabs({ urls }) {
               ))}
             </div>
           </Card>
-        </TabsContent>
+        </TabsContent> */}
         {/* <TabsContent value="video">
           {" "}
           <Card>
