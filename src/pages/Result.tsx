@@ -240,7 +240,6 @@ const RightBar = ({ data }: any) => {
 };
 
 const ResultCarousel = ({ urls }: any) => {
-  // console.log(urls);
   return (
     <>
       <div className="flex justify-center items-center w-full ">
@@ -290,7 +289,7 @@ const Facilities = () => {
 
 const AboutCard = ({ data }) => {
   return (
-    <Card className="mt-2 bg-rose-200 shadow-rose-400">
+    <Card className="mt-2 bg-rose-200  shadow-none">
       <CardHeader>
         <CardTitle>{data.name}</CardTitle>
         <CardDescription>About</CardDescription>
@@ -378,7 +377,7 @@ const AreaCard = ({ data }) => {
   return (
     <>
       {" "}
-      <Card className="mt-2">
+      <Card className="mt-2 shadow-none">
         <CardHeader>
           <CardTitle>Areas available</CardTitle>
           <CardDescription>Area</CardDescription>
