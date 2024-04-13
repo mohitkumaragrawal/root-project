@@ -341,18 +341,18 @@ export function MagicTabs({ urls }) {
           {/* <TabsTrigger value="album">Album</TabsTrigger> */}
         </TabsList>
         <TabsContent value="portfolio">
-          <Card>
-            <div className=" gap-1 grid grid-cols-2 md:grid-cols-3 ">
-              {Url?.map((img, index) => (
-                <img
-                  key={index}
-                  src={img}
-                  alt="random"
-                  className="w-full h-60 object-cover"
-                />
-              ))}
-            </div>
-          </Card>
+          {/* <Card> */}
+          <div className=" gap-1 grid grid-cols-2 md:grid-cols-3 ">
+            {Url?.map((img, index) => (
+              <img
+                key={index}
+                src={img}
+                alt="random"
+                className="w-full h-60 object-cover"
+              />
+            ))}
+          </div>
+          {/* </Card> */}
         </TabsContent>
         {/* <TabsContent value="album">
           {" "}

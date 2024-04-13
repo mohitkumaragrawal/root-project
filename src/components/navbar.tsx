@@ -26,6 +26,8 @@ import { User } from "firebase/auth";
 import { LogOut } from "lucide-react";
 import { FaGoogle } from "react-icons/fa";
 
+import logo from "@/assets/logo-removebg-preview.png";
+
 export function Navbar(props: { onOpen: () => void }) {
   const navMenuTriggerStyles = cn(
     "bg-transparent hover:bg-transparent focus:bg-transparent",
@@ -41,16 +43,22 @@ export function Navbar(props: { onOpen: () => void }) {
   const firebaseUser = firebase.user as User | null;
 
   return (
-    <div className="h-14 bg-primary flex items-center text-white px-5 shadow-rose-400 shadow-lg">
-      <Button onClick={props.onOpen} className="lg:hidden p-0">
+    <div className="h-18 flex items-center text-white px-5 shadow-pink-900/[0.3] shadow-md bg-[#D20062]">
+      <div
+        onClick={props.onOpen}
+        className="lg:hidden p-0 bg-transparent flex items-center justify-center cursor-pointer rounded-full"
+      >
         <IoMdMenu size={24} className="mr-3" />
-      </Button>
-
+      </div>
       <Link to="/">
-        <div className="mr-10 text-lg font-bold">RooT</div>
+        <img
+          src={logo}
+          referrerPolicy="no-referrer"
+          className="h-16 w-auto brightness-[200]"
+        />
       </Link>
 
-      <NavigationMenu className="hidden lg:block">
+      <NavigationMenu className="hidden lg:block pl-20">
         <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuTrigger className={navMenuTriggerStyles}>
@@ -127,7 +135,9 @@ export function Navbar(props: { onOpen: () => void }) {
       </NavigationMenu>
 
       <Link to="/gallary">
-        <Button className="hidden lg:block">Gallary</Button>
+        <Button className="hidden lg:block" variant="ghost">
+          Gallary
+        </Button>
       </Link>
 
       <div className="flex-1" />
