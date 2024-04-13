@@ -4,15 +4,11 @@ import { Button } from "@/components/ui/button";
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-
-//
-import Autoplay from "embla-carousel-react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -36,66 +32,20 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { Contact, LocateFixed, Mail, MessageCircle, Phone } from "lucide-react";
+import { Contact, Loader2, LocateFixed, Mail, Phone } from "lucide-react";
 import Container from "@/components/container";
 import {
   Breadcrumb,
-  BreadcrumbEllipsis,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import { Link } from "react-router-dom";
 import Skeleton from "@/components/skeleton";
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
 import { DialogContent } from "@/components/ui/dialog";
-
-//data
-const data = {
-  name: "The Vintage Aarone Farm",
-  address: "A5, Asola Road, Near Shani dham mandir chhatarpur",
-  email: "vintagethefarm@gmail.com",
-  Price_Per_Plate: {
-    Veg: "1500 without rent",
-    "Non-Veg": "1800 without rent",
-  },
-
-  facilities: {
-    Capacity: "100-500 Pax",
-    Category: "Farm House",
-    "Function Duration": "Minimum 2 days function with stays",
-    "Farm house Area": "3.5 Acre",
-  },
-  area: {
-    Accommodation: "5 BR Villa",
-    Pool: "Swimming Pool with poolside area (Popular for poolside Haldi Function)",
-    Lawn: [
-      {
-        name: "Queen Lawn",
-        capacity: "200-250 max",
-        features:
-          "Beautiful Lawn with landscaping. Popular for Mehandi, Sagan, Sangeet, Cocktail function, Day Wedding, etc.",
-      },
-      {
-        name: "King Lawn",
-        capacity: "500-600 max",
-        features:
-          "Front lawn with natural fountain and landscaping. Popular for Wedding function, live music event, Mandap Setup in front of fountain.",
-      },
-    ],
-  },
-  brief:
-    "We are pleased to introduce our farm house “The Vintage - Aarone Farms” with some salient features. Location : Asola -Chhatarpur Farm house Area : 3.5 Acre Our farm house is famous for minimum 2 days function and stays like 1st day you can enjoy your mehandi and sagan/ sngeet/ cocktail function in queen lawn and next day you can enjoy Haldi at pool Side and wedding in Front King lawn.",
-};
-//main component Result
 
 const Result = () => {
   const { viewVendors } = useFirebase();
@@ -114,10 +64,6 @@ const Result = () => {
     };
     fetchData();
   }, [viewVendors]);
-  // return <></>;
-  //
-  // const loading = !(vendorsData && vendorsData[0] !== null);
-  // const loading = true;
 
   return (
     <>
@@ -127,10 +73,16 @@ const Result = () => {
         </div>
         <div className="min-w-[80vw] lg:max-w-[80vw] xs:max-w-[95vw] mb-3">
           {vendorsData && vendorsData[0] ? (
-            <GridLayout
-              left={<LeftBar data={vendorsData[1]} />}
-              right={<RightBar data={vendorsData[1]} />}
-            />
+            <>
+              <GridLayout
+                left={<LeftBar data={vendorsData[1]} />}
+                right={<RightBar data={vendorsData[1]} />}
+              />
+              <div className="mb-4 hidden sm:block">
+                <AboutCard data={vendorsData[1]} />
+              </div>
+              <MagicTabs urls={vendorsData[1]?.urls ?? []} />
+            </>
           ) : (
             <div className="space-y-3 gap-3">
               <div className="flex gap-2 sm:flex-row flex-col">
@@ -153,13 +105,13 @@ const LeftBar = ({ data }: any) => {
       <div className="p-1 border rounded">
         <ResultCarousel urls={data?.urls ?? []} />
       </div>
-      <AboutCard data={data} />
-
+      <div className="mb-4 block sm:hidden">
+        <AboutCard data={data} />
+      </div>
       <AreaCard data={data} />
       <div className="block sm:hidden mt-1">
         <MobilePricing data={data} />
       </div>
-      <MagicTabs urls={data?.urls ?? []} />
     </>
   );
 };
@@ -293,29 +245,9 @@ const ResultCarousel = ({ urls }: any) => {
   );
 };
 
-const Facilities = () => {
-  return (
-    <Card className="mt-2">
-      <CardHeader>
-        <CardTitle>Facilities</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-2 gap-2 mt-2">
-          {Object.entries(data.facilities).map(([key, value]) => (
-            <div key={key}>
-              <p className="text-lg font-semibold">{key}</p>
-              <p>{value}</p>
-            </div>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
-  );
-};
-
 const AboutCard = ({ data }) => {
   return (
-    <Card className="mt-2 bg-rose-200  shadow-none">
+    <Card className="mt-2 bg-white shadow-none">
       <CardHeader>
         <CardTitle>{data.name}</CardTitle>
         <CardDescription>About</CardDescription>
@@ -371,12 +303,12 @@ export function MagicTabs({ urls }) {
   };
 
   return (
-    <Card className="mt-2 p-2 flex justify-center">
-      <Tabs defaultValue="portfolio" className="w-[800px]">
+    <Card className="mt-2 mb-4 p-2 flex justify-center">
+      <Tabs defaultValue="portfolio" className="w-full">
         <TabsList className="grid w-full grid-cols-1">
-          <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
+          <TabsTrigger value="Album">Album</TabsTrigger>
         </TabsList>
-        <TabsContent value="portfolio">
+        <TabsContent value="Album">
           {/* <Card> */}
           <div className=" gap-1 grid grid-cols-2 md:grid-cols-3 ">
             {visibleUrls?.map((img, index) => (
@@ -390,11 +322,11 @@ export function MagicTabs({ urls }) {
                   />
                 </DialogTrigger>
                 <DialogContent>
-                  <div className="p-3 h-auto w-auto">
+                  <div className="p-3 h-full w-full">
                     <img
                       src={img}
-                      alt="random"
-                      className="w-full h-96  rounded-sm shadow-md cursor-pointer shdadow-rose-200"
+                      alt="image"
+                      className="w-full h-full  rounded-sm shadow-md  shdadow-rose-200"
                     />
                   </div>
                 </DialogContent>
@@ -473,8 +405,17 @@ export function BreadcrumbNew() {
         <BreadcrumbItem>
           {/* <BreadcrumbLink href="/">Home</BreadcrumbLink> */}
           <Link to="/">Home</Link>
+        </BreadcrumbItem>{" "}
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          {/* <BreadcrumbLink href="/">Home</BreadcrumbLink> */}
+          <Link to="/">Vendors</Link>
         </BreadcrumbItem>
-
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          {/* <BreadcrumbLink href="/">Home</BreadcrumbLink> */}
+          <Link to="/">Venues</Link>
+        </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
           <BreadcrumbPage className="text-rose-400">Result</BreadcrumbPage>
@@ -486,11 +427,21 @@ export function BreadcrumbNew() {
 const PaginationNew = ({ totalItems, itemsPerPage, onPageChange }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleClick = (page) => {
     setCurrentPage(page);
     onPageChange(page);
   };
+  useEffect(() => {
+    setIsLoading(true);
+
+    const delay = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(delay);
+  }, [currentPage, onPageChange]);
 
   const renderPageNumbers = () => {
     const pageNumbers = [];
@@ -532,6 +483,11 @@ const PaginationNew = ({ totalItems, itemsPerPage, onPageChange }) => {
           />
         </PaginationItem>
       </PaginationContent>
+      {isLoading && (
+        <div className="flex justiffy-center items-center">
+          <Loader2 className="animate-spin text-rose-600" />
+        </div>
+      )}
     </Pagination>
   );
 };
