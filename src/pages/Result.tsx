@@ -1,6 +1,16 @@
 import GridLayout from "@/component/GridLyour";
 import { Button } from "@/components/ui/button";
 // import * as React from "react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+
 //
 import Autoplay from "embla-carousel-react";
 
@@ -45,6 +55,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Link } from "react-router-dom";
 import Skeleton from "@/components/skeleton";
+import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
+import { DialogContent } from "@/components/ui/dialog";
 
 //data
 const data = {
@@ -344,44 +356,60 @@ const AboutCard = ({ data }) => {
 };
 
 export function MagicTabs({ urls }) {
-  const Url = urls.slice(0, 9);
+  // const Url = urls.slice(0, 9);
+
+  const itemsPerPage = 9;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Logic to slice the URLs based on the current page
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const visibleUrls = urls.slice(startIndex, endIndex);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   return (
     <Card className="mt-2 p-2 flex justify-center">
       <Tabs defaultValue="portfolio" className="w-[800px]">
         <TabsList className="grid w-full grid-cols-1">
           <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
-          {/* <TabsTrigger value="album">Album</TabsTrigger> */}
         </TabsList>
         <TabsContent value="portfolio">
           {/* <Card> */}
           <div className=" gap-1 grid grid-cols-2 md:grid-cols-3 ">
-            {Url?.map((img, index) => (
-              <img
-                key={index}
-                src={img}
-                alt="random"
-                className="w-full h-60 object-cover"
-              />
+            {visibleUrls?.map((img, index) => (
+              <Dialog key={index}>
+                <DialogTrigger asChild>
+                  <img
+                    key={index}
+                    src={img}
+                    alt="random"
+                    className="w-full h-60 object-cover shadow-md cursor-pointer"
+                  />
+                </DialogTrigger>
+                <DialogContent>
+                  <div className="p-3 h-auto w-auto">
+                    <img
+                      src={img}
+                      alt="random"
+                      className="w-full h-96  rounded-sm shadow-md cursor-pointer shdadow-rose-200"
+                    />
+                  </div>
+                </DialogContent>
+              </Dialog>
             ))}
           </div>
-          {/* </Card> */}
+
+          <div className="mt-4">
+            <PaginationNew
+              totalItems={urls.length}
+              itemsPerPage={itemsPerPage}
+              onPageChange={handlePageChange}
+            />
+          </div>
         </TabsContent>
-        {/* <TabsContent value="album">
-          {" "}
-          <Card>
-            <div className="lg:grid grid-cols-3 gap-2 ">
-              {Url?.map((img, index) => (
-                <img
-                  key={index}
-                  src={img}
-                  alt="random"
-                  className="w-full h-60 object-cover"
-                />
-              ))}
-            </div>
-          </Card>
-        </TabsContent> */}
       </Tabs>
     </Card>
   );
@@ -455,5 +483,57 @@ export function BreadcrumbNew() {
     </Breadcrumb>
   );
 }
+const PaginationNew = ({ totalItems, itemsPerPage, onPageChange }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const handleClick = (page) => {
+    setCurrentPage(page);
+    onPageChange(page);
+  };
+
+  const renderPageNumbers = () => {
+    const pageNumbers = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumbers.push(
+        <PaginationItem key={i}>
+          <PaginationLink
+            onClick={() => handleClick(i)}
+            className="cursor-pointer"
+          >
+            {i}
+          </PaginationLink>
+        </PaginationItem>
+      );
+    }
+    return pageNumbers;
+  };
+
+  return (
+    <Pagination>
+      <PaginationContent>
+        <PaginationItem>
+          <PaginationPrevious
+            onClick={() => handleClick(currentPage - 1)}
+            className={`text-rose-500 ${
+              currentPage === 1 && "opacity-50 cursor-not-allowed"
+            }`}
+          />
+        </PaginationItem>
+
+        {renderPageNumbers()}
+
+        <PaginationItem>
+          <PaginationNext
+            onClick={() => handleClick(currentPage + 1)}
+            className={`text-rose-500 ${
+              currentPage === totalPages && "opacity-50 cursor-not-allowed"
+            }`}
+          />
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
+  );
+};
 
 export default Result;
