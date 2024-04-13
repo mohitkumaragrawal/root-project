@@ -15,7 +15,7 @@ export function Hero() {
         style={{
           backgroundImage:
             "url(https://i.ibb.co/vLGqjtZ/hero-image.jpg), linear-gradient(to top, black, transparent)",
-          filter: "blur(2px)",
+          // filter: "blur(2px)",
           backgroundBlendMode: "overlay",
           backgroundPosition: "center",
         }}

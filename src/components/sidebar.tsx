@@ -15,6 +15,7 @@ import {
 import { sidebarData } from "@/data/sidebar-data";
 import { Link } from "react-router-dom";
 
+import logo from "@/assets/logo-removebg-preview.png";
 export function Sidebar(props: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -23,7 +24,13 @@ export function Sidebar(props: {
     <Sheet open={props.open} onOpenChange={props.onOpenChange}>
       <SheetContent side="left" className="overflow-auto">
         <SheetHeader>
-          <SheetTitle>RooT</SheetTitle>
+          <SheetTitle>
+            <img
+              src={logo}
+              referrerPolicy="no-referrer"
+              className="h-full w-[230px] mx-auto "
+            />
+          </SheetTitle>
           <SheetDescription></SheetDescription>
         </SheetHeader>
 

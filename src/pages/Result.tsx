@@ -43,6 +43,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Link } from "react-router-dom";
+import Skeleton from "@/components/skeleton";
 
 //data
 const data = {
@@ -101,6 +103,9 @@ const Result = () => {
     fetchData();
   }, [viewVendors]);
   // return <></>;
+  //
+  // const loading = !(vendorsData && vendorsData[0] !== null);
+  // const loading = true;
 
   return (
     <>
@@ -109,11 +114,20 @@ const Result = () => {
           <BreadcrumbNew />
         </div>
         <div className="min-w-[80vw] lg:max-w-[80vw] xs:max-w-[95vw] mb-3">
-          {vendorsData && vendorsData[0] && (
+          {vendorsData && vendorsData[0] ? (
             <GridLayout
               left={<LeftBar data={vendorsData[1]} />}
               right={<RightBar data={vendorsData[1]} />}
             />
+          ) : (
+            <div className="space-y-3 gap-3">
+              <div className="flex gap-2 sm:flex-row flex-col">
+                <Skeleton className="w-full h-96 flex-[2] m-0" />
+                <Skeleton className="w-full h-96 flex-[1] m-0" />
+              </div>
+              <Skeleton className="w-full h-48" />
+              <Skeleton className="w-full h-56" />
+            </div>
           )}
         </div>
       </Container>
@@ -233,7 +247,7 @@ const RightBar = ({ data }: any) => {
             </div>
           </CardContent>
         </Card>
-        <Facilities />
+        {/* <Facilities /> */}
       </div>
     </>
   );
@@ -340,18 +354,18 @@ export function MagicTabs({ urls }) {
           {/* <TabsTrigger value="album">Album</TabsTrigger> */}
         </TabsList>
         <TabsContent value="portfolio">
-          <Card>
-            <div className=" gap-1 grid grid-cols-2 md:grid-cols-3 ">
-              {Url?.map((img, index) => (
-                <img
-                  key={index}
-                  src={img}
-                  alt="random"
-                  className="w-full h-60 object-cover"
-                />
-              ))}
-            </div>
-          </Card>
+          {/* <Card> */}
+          <div className=" gap-1 grid grid-cols-2 md:grid-cols-3 ">
+            {Url?.map((img, index) => (
+              <img
+                key={index}
+                src={img}
+                alt="random"
+                className="w-full h-60 object-cover"
+              />
+            ))}
+          </div>
+          {/* </Card> */}
         </TabsContent>
         {/* <TabsContent value="album">
           {" "}
@@ -429,7 +443,8 @@ export function BreadcrumbNew() {
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          {/* <BreadcrumbLink href="/">Home</BreadcrumbLink> */}
+          <Link to="/">Home</Link>
         </BreadcrumbItem>
 
         <BreadcrumbSeparator />
