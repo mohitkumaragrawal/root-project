@@ -36,8 +36,15 @@ export function Navbar(props: { onOpen: () => void }) {
     "data-[active]:aext-bold",
   );
   const firebase = useFirebase();
-  const handleSignin = () => {
-    firebase.signinWithGoogle();
+
+  const isFirefox = navigator.userAgent.indexOf("Firefox") !== -1;
+
+  const handleSignin = async () => {
+    if (isFirefox) {
+      await firebase.signinWithGoogle();
+    } else {
+      await firebase.signInWithGoogleRedirect();
+    }
   };
 
   const firebaseUser = firebase.user as User | null;

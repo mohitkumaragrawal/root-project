@@ -4,9 +4,11 @@ import {
   getAuth,
   GoogleAuthProvider,
   signInWithPopup,
+  signInWithRedirect,
   onAuthStateChanged,
   updateProfile,
   signOut,
+  getRedirectResult,
 } from "firebase/auth";
 import {
   getFirestore,
@@ -46,6 +48,8 @@ const googleProvider = new GoogleAuthProvider();
 export const FirebaseProvider = (props) => {
   const [user, setUser] = useState(null);
   const [vendors, setVendors] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     onAuthStateChanged(firebaseAuth, (user) => {
       if (user) {
@@ -60,6 +64,13 @@ export const FirebaseProvider = (props) => {
     signOut(firebaseAuth);
   };
   const signinWithGoogle = () => signInWithPopup(firebaseAuth, googleProvider);
+
+  const signInWithGoogleRedirect = async () => {
+    await signInWithRedirect(firebaseAuth, googleProvider);
+
+    const result = await getRedirectResult(firebaseAuth);
+    console.log("redirect result : ", result);
+  };
 
   // Function to view each vendor details [Argument example: photograph, venue]
   const viewVendors = async (vendorType) => {
@@ -91,7 +102,7 @@ export const FirebaseProvider = (props) => {
           {
             method: "POST",
             body: formData,
-          }
+          },
         );
         const result = await response.json();
         const imageUrl = result.data.url;
@@ -111,6 +122,8 @@ export const FirebaseProvider = (props) => {
     <FirebaseContext.Provider
       value={{
         signinWithGoogle,
+        signInWithGoogleRedirect,
+        logOut,
         user,
         viewVendors,
         createVendor,
