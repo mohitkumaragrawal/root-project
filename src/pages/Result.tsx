@@ -304,7 +304,7 @@ export function MagicTabs({ urls }) {
 
   return (
     <Card className="mt-2 mb-4 p-2 flex justify-center">
-      <Tabs defaultValue="portfolio" className="w-full">
+      <Tabs defaultValue="portfolio" className="w-full" value="Album">
         <TabsList className="grid w-full grid-cols-1">
           <TabsTrigger value="Album">Album</TabsTrigger>
         </TabsList>
@@ -321,12 +321,12 @@ export function MagicTabs({ urls }) {
                     className="w-full h-60 object-cover shadow-md cursor-pointer"
                   />
                 </DialogTrigger>
-                <DialogContent>
-                  <div className="p-3 h-full w-full">
+                <DialogContent className="w-[100vw] max-w-[95vw] max-h-[95vh] h-[100vw] flex flex-col overflow-hidden">
+                  <div className="w-full flex-1 h-full">
                     <img
                       src={img}
                       alt="image"
-                      className="w-full h-full  rounded-sm shadow-md  shdadow-rose-200"
+                      className="w-full h-full rounded-sm object-contain"
                     />
                   </div>
                 </DialogContent>
@@ -454,7 +454,7 @@ const PaginationNew = ({ totalItems, itemsPerPage, onPageChange }) => {
           >
             {i}
           </PaginationLink>
-        </PaginationItem>
+        </PaginationItem>,
       );
     }
     return pageNumbers;
