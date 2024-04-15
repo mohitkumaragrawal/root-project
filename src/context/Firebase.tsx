@@ -92,7 +92,7 @@ export const FirebaseProvider = (props) => {
             const jsonObject = JSON.parse(venueData)
             jsonObject.urls = imageUrls;
             await addDoc(venuesRef, jsonObject);
-
+            console.log(jsonObject);
             console.log("Venue created successfully!");
         } catch (error) {
             console.error("Error creating venue:", error);

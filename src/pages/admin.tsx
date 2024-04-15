@@ -13,6 +13,7 @@ const Result = () => {
     };
     const handleClick = (e) => {
         e.preventDefault();
+        console.log("Handlelick", json, "SVT", selectedVendorType)
         firebase.createVendor(selectedImages, json, selectedVendorType);
     }
 
