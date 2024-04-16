@@ -143,6 +143,14 @@ export const FirebaseProvider = (props) => {
     }
   };
 
+  const readVendorById = async (vendorType, id) => {
+    const vendorRef = doc(firestore, "vendors", vendorType + "s");
+    const objRef = doc(collection(vendorRef, vendorType), id);
+    const objSnapshot = await getDoc(objRef);
+    const vendor = objSnapshot.data();
+    return vendor;
+  };
+
   const submitConnectForm = async (formData) => {
     await addDoc(collection(firestore, "connect"), formData);
   };
@@ -158,6 +166,7 @@ export const FirebaseProvider = (props) => {
         createVendor,
         viewImages,
         submitConnectForm,
+        readVendorById,
       }}
     >
       {props.children}

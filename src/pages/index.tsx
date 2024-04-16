@@ -49,7 +49,7 @@ const Result = () => {
           <Container className="flex flex-wrap gap-5 items-center justify-center mb-12">
             {data.map((item, index) => (
               <div className="w-[400px]">
-                <CardWithForm key={index} {...item} />
+                <CardWithForm key={index} {...item} vendor={vendor} />
               </div>
             ))}
           </Container>

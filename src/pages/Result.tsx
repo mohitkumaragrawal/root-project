@@ -43,7 +43,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Skeleton from "@/components/skeleton";
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
 import { DialogContent } from "@/components/ui/dialog";
@@ -51,17 +51,16 @@ import { GiRoundStar } from "react-icons/gi";
 import { FaBuilding } from "react-icons/fa";
 
 const Result = () => {
-  const { viewVendors } = useFirebase();
+  const { viewVendors, readVendorById } = useFirebase();
   const [vendorsData, setVendorsData] = useState([]);
+
+  const { vendor, id } = useParams();
+
   useEffect(() => {
-    // console.log("clicked");
-    // console.log(viewVendors);
     const fetchData = async () => {
       try {
-        await viewVendors("venue").then((vendorsD) => {
-          setVendorsData(vendorsD);
-          // console.log(vendorsD);
-          // console.log(vendorsData);
+        await readVendorById(vendor, id).then((vendorsD) => {
+          setVendorsData([vendorsD]);
         });
       } catch (error) {
         console.error("Error fetching vendors:", error);
@@ -453,7 +452,7 @@ const PaginationNew = ({ totalItems, itemsPerPage, onPageChange }) => {
           >
             {i}
           </PaginationLink>
-        </PaginationItem>
+        </PaginationItem>,
       );
     }
     return pageNumbers;

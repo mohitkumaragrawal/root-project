@@ -34,6 +34,7 @@ function clampString(x: string, n: number): string {
 
 export function CardWithForm(props: Props) {
   const { id, vendor } = props;
+  console.log(props);
 
   const url = `/vendor/${vendor}/${id}`;
 
