@@ -126,6 +126,17 @@ export const FirebaseProvider = (props) => {
     }
   };
 
+  // Function to view images
+  const viewImages = async () => {
+    try {
+      const snapshot = await getDocs(collection(firestore, 'img'));
+      const im = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      return im;
+    } catch (error) {
+      console.error('Error getting images: ', error);
+      return [];
+    }
+  };
 
   return (
     <FirebaseContext.Provider
@@ -136,6 +147,7 @@ export const FirebaseProvider = (props) => {
         user,
         viewVendors,
         createVendor,
+        viewImages
       }}
     >
       {props.children}

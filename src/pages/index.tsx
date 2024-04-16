@@ -5,7 +5,9 @@ import { useFirebase } from "@/context/Firebase";
 
 const Result = () => {
   const [data, setData] = useState([]);
+  const [img, setImg] = useState([]);
   const firebase = useFirebase();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -25,7 +27,7 @@ const Result = () => {
       {
         data ? (<div>
           <Container>
-            <h1 className="font-bold text-3xl">
+            <h1 className="font-bold text-3xl" >
               {"4 Star & Above Wedding Hotels in Surat"}
             </h1>
             <h2 className="text-gray-700">
