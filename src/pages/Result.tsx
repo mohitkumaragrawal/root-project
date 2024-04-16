@@ -358,13 +358,14 @@ const AreaCard = ({ data }) => {
         </CardHeader>
 
         <CardContent>
-          <div className="grid grid-cols-1  gap-2   rounded">
+          <div className="grid grid-cols-1  gap-2 rounded h-64 overflow-scroll">
             {" "}
             {data.features.map((feature, index) => (
-              <div key={index} className=" p-3 rounded">
-                <p className="text-md font-semibold flex items-center gap-3">
+              <div key={index} className=" p-2 rounded">
+                <p className="text-sm font-semibold flex items-center gap-5">
                   {" "}
-                  <GiRoundStar className="text-yellow-400" /> {feature}
+                  <GiRoundStar className="text-yellow-400 h-3 w-3  min-h-4 min-w-4" />{" "}
+                  {feature}
                 </p>
               </div>
             ))}
@@ -444,7 +445,7 @@ const PaginationNew = ({ totalItems, itemsPerPage, onPageChange }) => {
           >
             {i}
           </PaginationLink>
-        </PaginationItem>,
+        </PaginationItem>
       );
     }
     return pageNumbers;

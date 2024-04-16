@@ -10,7 +10,7 @@ import { useEffect } from "react";
 export default function HomePage() {
   const fetchData = async () => {
     const data = await getAllDocs();
-    console.log(data);
+    // console.log(data);
   };
 
   useEffect(() => {
