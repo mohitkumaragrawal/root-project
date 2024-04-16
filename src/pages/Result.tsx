@@ -1,5 +1,6 @@
 import GridLayout from "@/component/GridLyour";
 import { Button } from "@/components/ui/button";
+import Autoplay from "embla-carousel-autoplay";
 // import * as React from "react";
 import {
   Pagination,
@@ -46,18 +47,21 @@ import { Link } from "react-router-dom";
 import Skeleton from "@/components/skeleton";
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
 import { DialogContent } from "@/components/ui/dialog";
+import { GiRoundStar } from "react-icons/gi";
+import { FaBuilding } from "react-icons/fa";
 
 const Result = () => {
   const { viewVendors } = useFirebase();
   const [vendorsData, setVendorsData] = useState([]);
   useEffect(() => {
-    console.log("clicked");
-    console.log(viewVendors);
+    // console.log("clicked");
+    // console.log(viewVendors);
     const fetchData = async () => {
       try {
         await viewVendors("venue").then((vendorsD) => {
           setVendorsData(vendorsD);
-          console.log(vendorsData);
+          // console.log(vendorsD);
+          // console.log(vendorsData);
         });
       } catch (error) {
         console.error("Error fetching vendors:", error);
@@ -76,13 +80,11 @@ const Result = () => {
           {vendorsData && vendorsData[0] ? (
             <>
               <GridLayout
-                left={<LeftBar data={vendorsData[1]} />}
-                right={<RightBar data={vendorsData[1]} />}
+                left={<LeftBar data={vendorsData[0]} />}
+                right={<RightBar data={vendorsData[0]} />}
               />
-              <div className="mb-4 hidden sm:block">
-                <AboutCard data={vendorsData[1]} />
-              </div>
-              <MagicTabs urls={vendorsData[1]?.urls ?? []} />
+
+              <MagicTabs urls={vendorsData[0]?.urls ?? []} />
             </>
           ) : (
             <div className="space-y-3 gap-3">
@@ -106,10 +108,13 @@ const LeftBar = ({ data }: any) => {
       <div className="p-1 border rounded">
         <ResultCarousel urls={data?.urls ?? []} />
       </div>
+      <div className="mb-4 hidden sm:block">
+        <AboutCard data={data} />
+      </div>
       <div className="mb-4 block sm:hidden">
         <AboutCard data={data} />
       </div>
-      <AreaCard data={data} />
+
       <div className="block sm:hidden mt-1">
         <MobilePricing data={data} />
       </div>
@@ -125,14 +130,14 @@ const MobilePricing = ({ data }: any) => {
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-2 gap-1 ">
-          {data?.price_per_plate &&
-            Object.entries(data?.price_per_plate).map(([key, value]) => (
-              <div key={key}>
+          {data?.rates &&
+            (data?.rates).map((servic, index) => (
+              <div key={index}>
                 <p className="text-lg font-semibold capitalize">
-                  {key.replace("_", " ")}
+                  {servic?.service}
                 </p>
                 <p className=" p-1 pl-4 shadow-sm shadow-red-300 rounded-lg border-gray-500 mt-1">
-                  ₹{value as string}
+                  ₹{servic?.rate}
                 </p>
               </div>
             ))}
@@ -175,20 +180,20 @@ const RightBar = ({ data }: any) => {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 gap-1 ">
-              {data?.price_per_plate &&
-                Object.entries(data?.price_per_plate).map(([key, value]) => (
-                  <div key={key}>
+              {data?.rates &&
+                (data?.rates).map((servic, index) => (
+                  <div key={index}>
                     <p className="text-lg font-semibold capitalize">
-                      {key.replace("_", " ")}
+                      {servic?.service}
                     </p>
                     <p className=" p-1 pl-4 shadow-sm shadow-red-300 rounded-lg border-gray-500 mt-1">
-                      ₹{value as string}
+                      ₹{servic?.rate}
                     </p>
                   </div>
                 ))}
             </div>
-            <PricingAccord />
-            <div className="mt-2 flex p-3  justify-center">
+            {/* <PricingAccord /> */}
+            <div className="mt-4 flex p-3  justify-center border border-1 rounded-md shadow-rose-300 ">
               <div className="flex justify-center gap-3">
                 <a href={`mailto:${data.email}`}>
                   <Button
@@ -213,6 +218,7 @@ const RightBar = ({ data }: any) => {
           </CardContent>
         </Card>
         {/* <Facilities /> */}
+        <AreaCard data={data} />
       </div>
     </>
   );
@@ -227,6 +233,11 @@ const ResultCarousel = ({ urls }: any) => {
           opts={{
             loop: true,
           }}
+          plugins={[
+            Autoplay({
+              delay: 3000,
+            }),
+          ]}
         >
           <CarouselContent>
             {urls?.map((img, index) => (
@@ -250,36 +261,34 @@ const AboutCard = ({ data }) => {
   return (
     <Card className="mt-2 bg-white shadow-none">
       <CardHeader>
-        <CardTitle>{data.name}</CardTitle>
-        <CardDescription>About</CardDescription>
+        <CardTitle> {data?.title}</CardTitle>
       </CardHeader>
 
       <CardContent>
-        <p className="mt-2 text-gray-600 tracking-wide text-start">
-          {data.brief}
-        </p>
-
-        <div className="mt-4">
-          <div className="flex gap-2 items-center ">
-            <LocateFixed className="mt-2" />
+        <div className="mt-2 relative">
+          <div className="absolute right-2 bottom-16 flex items-center gap-2 border-rose-100">
+            <FaBuilding className="text-rose-600" /> {data?.category}
+          </div>
+          <div className="flex gap-2 items-center  ">
+            <LocateFixed className="text-rose-500 mt-2" />
             <a
-              href={`https://maps.google.com/?q=${data.address}`}
+              href={`https://maps.google.com/?q=${data.location}`}
               className="bold text-black ml-2 underline mt-2"
             >
-              {data.address}{" "}
+              {data.location}{" "}
             </a>
           </div>
         </div>
 
-        <div className="mt-4">
+        <div className="mt-2">
           <div className="flex items-center gap-2">
-            <Contact className="mt-2" />
-            <p className="mt-2 text-gray-600"></p>
+            <Contact className="mt-2 text-rose-500" />
+
             <a
-              href={`mailto:${data.email}`}
+              href={`mailto:${data?.email || "weddingcentral.in"}`}
               className="bold text-black ml-2 underline mt-2"
             >
-              {data.email}
+              {data.email || "weddingcentral.in"}
             </a>
           </div>
         </div>
@@ -354,31 +363,20 @@ const AreaCard = ({ data }) => {
       {" "}
       <Card className="mt-2 shadow-none">
         <CardHeader>
-          <CardTitle>Areas available</CardTitle>
-          <CardDescription>Area</CardDescription>
+          <CardTitle>Features </CardTitle>
         </CardHeader>
+
         <CardContent>
-          {/* <div>
-            <p className="text-lg font-semibold">Accommodation</p>
-            <p>{data.area.Accommodation}</p>
-          </div> */}
-          {/* <div className="mt-2">
-            <p className="text-lg font-semibold">Pool</p>
-            <p>{data.area.Pool}</p>
-          </div> */}
-          <div className="mt-2">
-            <p className="text-lg font-semibold">Lawn</p>
-            <div className="grid grid-cols-1 gap-2">
-              {data.lawns.map((lawn, index) => (
-                <div key={index} className="border p-3 rounded">
-                  <p className="text-lg font-semibold underline">{lawn.name}</p>
-                  <p className="font-semibold">
-                    <span className="bold mr-1">Capacity</span>
-                    {lawn.category}
-                  </p>
-                </div>
-              ))}
-            </div>
+          <div className="grid grid-cols-1  gap-2   rounded">
+            {" "}
+            {data.features.map((feature, index) => (
+              <div key={index} className=" p-3 rounded">
+                <p className="text-md font-semibold flex items-center gap-3">
+                  {" "}
+                  <GiRoundStar className="text-yellow-400" /> {feature}
+                </p>
+              </div>
+            ))}
           </div>
         </CardContent>
       </Card>
@@ -455,7 +453,7 @@ const PaginationNew = ({ totalItems, itemsPerPage, onPageChange }) => {
           >
             {i}
           </PaginationLink>
-        </PaginationItem>,
+        </PaginationItem>
       );
     }
     return pageNumbers;
@@ -467,8 +465,9 @@ const PaginationNew = ({ totalItems, itemsPerPage, onPageChange }) => {
         <PaginationItem>
           <PaginationPrevious
             onClick={() => handleClick(currentPage - 1)}
-            className={`text-rose-500 ${currentPage === 1 && "opacity-50 cursor-not-allowed"
-              }`}
+            className={`text-rose-500 ${
+              currentPage === 1 && "opacity-50 cursor-not-allowed"
+            }`}
           />
         </PaginationItem>
 
@@ -477,8 +476,9 @@ const PaginationNew = ({ totalItems, itemsPerPage, onPageChange }) => {
         <PaginationItem>
           <PaginationNext
             onClick={() => handleClick(currentPage + 1)}
-            className={`text-rose-500 ${currentPage === totalPages && "opacity-50 cursor-not-allowed"
-              }`}
+            className={`text-rose-500 ${
+              currentPage === totalPages && "opacity-50 cursor-not-allowed"
+            }`}
           />
         </PaginationItem>
       </PaginationContent>

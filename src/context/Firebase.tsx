@@ -82,7 +82,7 @@ export const FirebaseProvider = (props) => {
       const objRef = collection(vendorRef, vendorType);
       const objSnapshot = await getDocs(objRef);
       const venues = objSnapshot.docs.map((doc) => doc.data());
-      console.log("inside firebase", venues);
+      // console.log("inside firebase", venues);
       return venues;
     } catch (error) {
       console.error("Error viewing:", error);
