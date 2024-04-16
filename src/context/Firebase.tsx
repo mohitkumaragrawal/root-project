@@ -80,7 +80,7 @@ export const FirebaseProvider = (props) => {
       const objRef = collection(vendorRef, vendorType);
       const objSnapshot = await getDocs(objRef);
       const venues = objSnapshot.docs.map((doc) => doc.data());
-      console.log(venues);
+      console.log("inside firebase", venues);
       return venues;
     } catch (error) {
       console.error("Error viewing:", error);
@@ -93,7 +93,7 @@ export const FirebaseProvider = (props) => {
       const imageUrls = [];
       const vendorRef = doc(firestore, "vendors", selectedVendorType + "s");
       const venuesRef = collection(vendorRef, selectedVendorType);
-
+      const imgRef = collection(firestore, "img");
       for (const image of images) {
         const formData = new FormData();
         formData.append("image", image);
@@ -106,6 +106,14 @@ export const FirebaseProvider = (props) => {
         );
         const result = await response.json();
         const imageUrl = result.data.url;
+        const newImg = {
+          imageUrl
+        }
+        try {
+          const docRef = await addDoc(imgRef, newImg);
+        } catch (error) {
+          console.log("Error add image to img collection: ", error);
+        }
         imageUrls.push(imageUrl);
       }
       const jsonObject = JSON.parse(venueData);
@@ -117,6 +125,7 @@ export const FirebaseProvider = (props) => {
       console.error("Error creating venue:", error);
     }
   };
+
 
   return (
     <FirebaseContext.Provider

@@ -1,0 +1,67 @@
+[
+  {
+    "title": "RooT Farm",
+    "location": "Kapashera, New Delhi -110037",
+    "category": "Farm House",
+    "rates": [
+      {
+        "service": "Veg",
+        "rate": 1600
+      },
+      {
+        "service": "Non veg",
+        "rate": 1800
+      }
+    ],
+    "features": [
+      "200-1500 pax",
+      "6BR Villa Accommodation",
+      "Big Size Swimming Pool",
+      "Banquet for 250 pax"
+    ]
+  },
+  {
+  "title": "The Vintage Aarone Farm",
+  "location": "A5, Asola Road, Near Shani dham mandir chhatarpur",
+  "category": "Farm House",
+  "rates": [
+    {
+      "service": "Veg",
+      "rate": 1500
+    },
+    {
+      "service": "Non veg",
+      "rate": 1800
+    }
+  ],
+  "features": [
+    "100-500 Pax Capacity",
+    "5 BR Villa Accommodation",
+    "Big Size Swimming Pool with poolside area (Popular for poolside Haldi Function)",
+    "Queen Lawn with gathering Capacity of 200-250 pax (Popular for Mehandi, Sagan, Sangeet, cocktail function, Day Wedding, etc.)",
+    "King Lawn with gathering capacity of 500-600 pax (Popular for Wedding function, live music event, Mandap Setup in front of fountain)",
+    "Minimum 2 days function with multiple event spaces"
+  ]
+},
+{
+  "title": "Afarias Farm",
+  "location": "Najafgarh, New Delhi -110037",
+  "category": "Farm House",
+  "rates": [
+    {
+      "service": "Veg",
+      "rate": 1200
+    },
+    {
+      "service": "Non veg",
+      "rate": 1600
+    }
+  ],
+  "features": [
+    "200-2000 pax Capacity",
+    "Accommodation: N/A",
+    "Swimming Pool: N/A",
+    "Banquet: N/A"
+  ]
+}
+]

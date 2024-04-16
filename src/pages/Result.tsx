@@ -57,6 +57,7 @@ const Result = () => {
       try {
         await viewVendors("venue").then((vendorsD) => {
           setVendorsData(vendorsD);
+          console.log(vendorsData);
         });
       } catch (error) {
         console.error("Error fetching vendors:", error);
@@ -466,9 +467,8 @@ const PaginationNew = ({ totalItems, itemsPerPage, onPageChange }) => {
         <PaginationItem>
           <PaginationPrevious
             onClick={() => handleClick(currentPage - 1)}
-            className={`text-rose-500 ${
-              currentPage === 1 && "opacity-50 cursor-not-allowed"
-            }`}
+            className={`text-rose-500 ${currentPage === 1 && "opacity-50 cursor-not-allowed"
+              }`}
           />
         </PaginationItem>
 
@@ -477,9 +477,8 @@ const PaginationNew = ({ totalItems, itemsPerPage, onPageChange }) => {
         <PaginationItem>
           <PaginationNext
             onClick={() => handleClick(currentPage + 1)}
-            className={`text-rose-500 ${
-              currentPage === totalPages && "opacity-50 cursor-not-allowed"
-            }`}
+            className={`text-rose-500 ${currentPage === totalPages && "opacity-50 cursor-not-allowed"
+              }`}
           />
         </PaginationItem>
       </PaginationContent>

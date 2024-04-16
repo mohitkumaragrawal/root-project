@@ -21,6 +21,7 @@ interface Props {
     rate: number;
   }[];
   features: string[];
+  urls: string[];
 }
 
 export function CardWithForm(props: Props) {
@@ -28,7 +29,7 @@ export function CardWithForm(props: Props) {
     <Card className="">
       <div className="relative">
         <img
-          src={props.image_url}
+          src={props.urls[0]}
           alt={props.title}
           className="w-full h-[200px] object-cover rounded-t-lg"
         />
@@ -74,7 +75,7 @@ export function CardWithForm(props: Props) {
             <HoverCardContent side="right" className="flex flex-col">
               {props.features.slice(2).map((f, idx) => (
                 <p
-                  className="text-gray-600 text-xs px-2 py-1 flex items-center"
+                  className="text-gray-600 text-xs px-2 py-1 flex items-center line-clamp-1"
                   key={idx}
                 >
                   <CheckIcon size={16} className="mr-2 text-green-500" /> {f}
