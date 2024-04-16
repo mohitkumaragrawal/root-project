@@ -68,7 +68,7 @@ const Result = () => {
         <div className="mb-4 ml-3">
           <BreadcrumbNew />
         </div>
-        <div className="min-w-[80vw] lg:max-w-[80vw] xs:max-w-[95vw] mb-3">
+        <div className=" mb-3">
           {vendorsData && vendorsData[0] ? (
             <>
               <GridLayout
