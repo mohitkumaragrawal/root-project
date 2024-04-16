@@ -24,6 +24,7 @@ const Result = () => {
       try {
         await firebase.viewVendors(vendor).then((v) => {
           setData(v);
+          console.log(v);
         });
       } catch (error) {
         console.error("Error fetching data:", error);

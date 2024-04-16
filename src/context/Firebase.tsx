@@ -81,7 +81,10 @@ export const FirebaseProvider = (props) => {
       const vendorRef = doc(firestore, "vendors", vendorType + "s");
       const objRef = collection(vendorRef, vendorType);
       const objSnapshot = await getDocs(objRef);
-      const venues = objSnapshot.docs.map((doc) => doc.data());
+      const venues = objSnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
       // console.log("inside firebase", venues);
       return venues;
     } catch (error) {

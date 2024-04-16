@@ -73,7 +73,7 @@ export function Navbar(props: { onOpen: () => void }) {
         <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuTrigger className={navMenuTriggerStyles}>
-              Venues
+              <Link to="/vendor/venue">Venues</Link>
             </NavigationMenuTrigger>
             <NavigationMenuContent>
               <div className="grid-cols-[1.2fr_0.8fr_2fr] w-[900px] grid p-2">
