@@ -80,7 +80,7 @@ export const FirebaseProvider = (props) => {
       const objRef = collection(vendorRef, vendorType);
       const objSnapshot = await getDocs(objRef);
       const venues = objSnapshot.docs.map((doc) => doc.data());
-      console.log("inside firebase", venues);
+      // console.log("inside firebase", venues);
       return venues;
     } catch (error) {
       console.error("Error viewing:", error);
@@ -102,13 +102,13 @@ export const FirebaseProvider = (props) => {
           {
             method: "POST",
             body: formData,
-          },
+          }
         );
         const result = await response.json();
         const imageUrl = result.data.url;
         const newImg = {
-          imageUrl
-        }
+          imageUrl,
+        };
         try {
           const docRef = await addDoc(imgRef, newImg);
         } catch (error) {
@@ -129,11 +129,11 @@ export const FirebaseProvider = (props) => {
   // Function to view images
   const viewImages = async () => {
     try {
-      const snapshot = await getDocs(collection(firestore, 'img'));
+      const snapshot = await getDocs(collection(firestore, "img"));
       const im = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       return im;
     } catch (error) {
-      console.error('Error getting images: ', error);
+      console.error("Error getting images: ", error);
       return [];
     }
   };
@@ -147,7 +147,7 @@ export const FirebaseProvider = (props) => {
         user,
         viewVendors,
         createVendor,
-        viewImages
+        viewImages,
       }}
     >
       {props.children}

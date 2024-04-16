@@ -1,5 +1,6 @@
 import GridLayout from "@/component/GridLyour";
 import { Button } from "@/components/ui/button";
+import Autoplay from "embla-carousel-autoplay";
 // import * as React from "react";
 import {
   Pagination,
@@ -46,6 +47,8 @@ import { Link } from "react-router-dom";
 import Skeleton from "@/components/skeleton";
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
 import { DialogContent } from "@/components/ui/dialog";
+import { GiRoundStar } from "react-icons/gi";
+import { FaBuilding } from "react-icons/fa";
 
 const Result = () => {
   const { viewVendors } = useFirebase();
@@ -111,7 +114,7 @@ const LeftBar = ({ data }: any) => {
       <div className="mb-4 block sm:hidden">
         <AboutCard data={data} />
       </div>
-      <AreaCard data={data} />
+
       <div className="block sm:hidden mt-1">
         <MobilePricing data={data} />
       </div>
@@ -127,14 +130,14 @@ const MobilePricing = ({ data }: any) => {
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-2 gap-1 ">
-          {data?.price_per_plate &&
-            Object.entries(data?.price_per_plate).map(([key, value]) => (
-              <div key={key}>
+          {data?.rates &&
+            (data?.rates).map((servic, index) => (
+              <div key={index}>
                 <p className="text-lg font-semibold capitalize">
-                  {key.replace("_", " ")}
+                  {servic?.service}
                 </p>
                 <p className=" p-1 pl-4 shadow-sm shadow-red-300 rounded-lg border-gray-500 mt-1">
-                  ₹{value as string}
+                  ₹{servic?.rate}
                 </p>
               </div>
             ))}
@@ -177,20 +180,20 @@ const RightBar = ({ data }: any) => {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 gap-1 ">
-              {data?.price_per_plate &&
-                Object.entries(data?.price_per_plate).map(([key, value]) => (
-                  <div key={key}>
+              {data?.rates &&
+                (data?.rates).map((servic, index) => (
+                  <div key={index}>
                     <p className="text-lg font-semibold capitalize">
-                      {key.replace("_", " ")}
+                      {servic?.service}
                     </p>
                     <p className=" p-1 pl-4 shadow-sm shadow-red-300 rounded-lg border-gray-500 mt-1">
-                      ₹{value as string}
+                      ₹{servic?.rate}
                     </p>
                   </div>
                 ))}
             </div>
-            <PricingAccord />
-            <div className="mt-2 flex p-3  justify-center">
+            {/* <PricingAccord /> */}
+            <div className="mt-4 flex p-3  justify-center border border-1 rounded-md shadow-rose-300 ">
               <div className="flex justify-center gap-3">
                 <a href={`mailto:${data.email}`}>
                   <Button
@@ -215,6 +218,7 @@ const RightBar = ({ data }: any) => {
           </CardContent>
         </Card>
         {/* <Facilities /> */}
+        <AreaCard data={data} />
       </div>
     </>
   );
@@ -229,6 +233,11 @@ const ResultCarousel = ({ urls }: any) => {
           opts={{
             loop: true,
           }}
+          plugins={[
+            Autoplay({
+              delay: 3000,
+            }),
+          ]}
         >
           <CarouselContent>
             {urls?.map((img, index) => (
@@ -257,9 +266,11 @@ const AboutCard = ({ data }) => {
 
       <CardContent>
         <div className="mt-2 relative">
-          <div className="absolute right-2 top-1">{data?.category}</div>
-          <div className="flex gap-2 items-center ">
-            <LocateFixed className="mt-1" />
+          <div className="absolute right-2 bottom-16 flex items-center gap-2 border-rose-100">
+            <FaBuilding className="text-rose-600" /> {data?.category}
+          </div>
+          <div className="flex gap-2 items-center  ">
+            <LocateFixed className="text-rose-500 mt-2" />
             <a
               href={`https://maps.google.com/?q=${data.location}`}
               className="bold text-black ml-2 underline mt-2"
@@ -271,13 +282,13 @@ const AboutCard = ({ data }) => {
 
         <div className="mt-2">
           <div className="flex items-center gap-2">
-            <Contact className="mt-1" />
-            <p className="mt-2 text-gray-600"></p>
+            <Contact className="mt-2 text-rose-500" />
+
             <a
-              href={`mailto:${data?.email || "swaroopaditya545@gmail.com"}`}
+              href={`mailto:${data?.email || "weddingcentral.in"}`}
               className="bold text-black ml-2 underline mt-2"
             >
-              {data.email || "swaroopaditya545@gmail.com"}
+              {data.email || "weddingcentral.in"}
             </a>
           </div>
         </div>
@@ -353,20 +364,19 @@ const AreaCard = ({ data }) => {
       <Card className="mt-2 shadow-none">
         <CardHeader>
           <CardTitle>Features </CardTitle>
-          <CardDescription>Area</CardDescription>
         </CardHeader>
+
         <CardContent>
-          <div className="mt-2">
-            <p className="text-lg font-semibold">Lawn</p>
-            <div className="grid grid-cols-1 gap-2">
-              {data.features.map((feature, index) => (
-                <div key={index} className="border p-3 rounded">
-                  <p className="text-lg font-semibold underline">
-                    {feature.includes("N/A")}
-                  </p>
-                </div>
-              ))}
-            </div>
+          <div className="grid grid-cols-1  gap-2   rounded">
+            {" "}
+            {data.features.map((feature, index) => (
+              <div key={index} className=" p-3 rounded">
+                <p className="text-md font-semibold flex items-center gap-3">
+                  {" "}
+                  <GiRoundStar className="text-yellow-400" /> {feature}
+                </p>
+              </div>
+            ))}
           </div>
         </CardContent>
       </Card>
