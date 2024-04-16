@@ -1,7 +1,6 @@
 import GridLayout from "@/component/GridLyour";
 import { Button } from "@/components/ui/button";
 import Autoplay from "embla-carousel-autoplay";
-// import * as React from "react";
 import {
   Pagination,
   PaginationContent,
@@ -18,16 +17,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useFirebase } from "@/context/Firebase";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
@@ -114,7 +107,9 @@ const LeftBar = ({ data }: any) => {
       <div className="mb-4 block sm:hidden">
         <AboutCard data={data} />
       </div>
-
+      <div className="block sm:hidden mt-1">
+        <AreaCard data={data} />
+      </div>
       <div className="block sm:hidden mt-1">
         <MobilePricing data={data} />
       </div>
@@ -129,7 +124,7 @@ const MobilePricing = ({ data }: any) => {
         <CardTitle>Pricing</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-2 gap-1 ">
+        <div className="grid grid-cols-2 gap-1  p-2">
           {data?.rates &&
             (data?.rates).map((servic, index) => (
               <div key={index}>
@@ -143,7 +138,7 @@ const MobilePricing = ({ data }: any) => {
             ))}
         </div>
         {/* <PricingAccord /> */}
-        <div className="mt-2 flex p-3  justify-center">
+        <div className="mt-2 flex p-3  justify-center border rounded-md">
           <div className="flex justify-center gap-3">
             <a href={`mailto:${data.email}`}>
               <Button
@@ -283,7 +278,6 @@ const AboutCard = ({ data }) => {
         <div className="mt-2">
           <div className="flex items-center gap-2">
             <Contact className="mt-2 text-rose-500" />
-
             <a
               href={`mailto:${data?.email || "weddingcentral.in"}`}
               className="bold text-black ml-2 underline mt-2"
@@ -298,8 +292,6 @@ const AboutCard = ({ data }) => {
 };
 
 export function MagicTabs({ urls }) {
-  // const Url = urls.slice(0, 9);
-
   const itemsPerPage = 9;
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -397,7 +389,7 @@ const PricingAccord = () => {
   );
 };
 
-export function BreadcrumbNew() {
+function BreadcrumbNew() {
   return (
     <Breadcrumb>
       <BreadcrumbList>
