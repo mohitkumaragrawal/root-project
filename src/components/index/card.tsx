@@ -24,6 +24,11 @@ interface Props {
   urls: string[];
 }
 
+function clampString(x: string, n: number): string {
+  if (x.length <= n) return x;
+  return x.substring(0, n - 3) + "...";
+}
+
 export function CardWithForm(props: Props) {
   return (
     <Card className="">
@@ -37,7 +42,8 @@ export function CardWithForm(props: Props) {
       <CardHeader className="pb-3">
         <CardTitle className="text-lg">{props.title}</CardTitle>
         <CardDescription className="flex text-gray-600 items-center">
-          <MapPinIcon className="mr-2" /> {props.location}
+          <MapPinIcon className="mr-2" />{" "}
+          <p className="line-clamp-1">{props.location}</p>
         </CardDescription>
       </CardHeader>
 
@@ -60,7 +66,7 @@ export function CardWithForm(props: Props) {
               className="text-gray-600 text-xs px-2 py-1 bg-gray-200"
               key={idx}
             >
-              {f}
+              {clampString(f, 22)}
             </p>
           );
         })}
@@ -74,12 +80,16 @@ export function CardWithForm(props: Props) {
             </HoverCardTrigger>
             <HoverCardContent side="right" className="flex flex-col">
               {props.features.slice(2).map((f, idx) => (
-                <p
-                  className="text-gray-600 text-xs px-2 py-1 flex items-center line-clamp-1"
+                <div
+                  className="text-gray-600 text-xs px-2 py-1 flex items-center"
                   key={idx}
                 >
-                  <CheckIcon size={16} className="mr-2 text-green-500" /> {f}
-                </p>
+                  <CheckIcon
+                    size={16}
+                    className="mr-2 text-green-500 min-w-[30px]"
+                  />{" "}
+                  <p className="line-clamp-2">{f}</p>
+                </div>
               ))}
             </HoverCardContent>
           </HoverCard>
@@ -88,4 +98,3 @@ export function CardWithForm(props: Props) {
     </Card>
   );
 }
-

@@ -39,6 +39,16 @@ const router = createBrowserRouter([
         path: "/vendor",
         element: <VendorPage />,
       },
+
+      {
+        path: "/vendor/:vendor",
+        element: <Index />,
+      },
+
+      {
+        path: "/vendor/:vendor/:id",
+        element: <Result />,
+      },
     ],
   },
 ]);

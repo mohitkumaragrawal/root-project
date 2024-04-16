@@ -6,6 +6,8 @@ import { useState } from "react";
 import { Sidebar } from "@/components/sidebar";
 import DelayedForm from "@/components/delayed-form";
 
+import { Toaster } from "@/components/ui/sonner";
+
 export default function Layout() {
   const [open, setOpen] = useState(false);
 
@@ -16,6 +18,7 @@ export default function Layout() {
       <DelayedForm />
       <Outlet />
       <Footer />
+      <Toaster />
     </>
   );
 }

@@ -25,6 +25,8 @@ import {
 } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
+import type { ContactFormSchema } from "@/lib/schema";
+
 const FirebaseContext = createContext(null);
 
 const firebaseConfig = {
@@ -107,8 +109,8 @@ export const FirebaseProvider = (props) => {
         const result = await response.json();
         const imageUrl = result.data.url;
         const newImg = {
-          imageUrl
-        }
+          imageUrl,
+        };
         try {
           const docRef = await addDoc(imgRef, newImg);
         } catch (error) {
@@ -129,13 +131,17 @@ export const FirebaseProvider = (props) => {
   // Function to view images
   const viewImages = async () => {
     try {
-      const snapshot = await getDocs(collection(firestore, 'img'));
+      const snapshot = await getDocs(collection(firestore, "img"));
       const im = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       return im;
     } catch (error) {
-      console.error('Error getting images: ', error);
+      console.error("Error getting images: ", error);
       return [];
     }
+  };
+
+  const submitConnectForm = async (formData) => {
+    await addDoc(collection(firestore, "connect"), formData);
   };
 
   return (
@@ -147,7 +153,8 @@ export const FirebaseProvider = (props) => {
         user,
         viewVendors,
         createVendor,
-        viewImages
+        viewImages,
+        submitConnectForm,
       }}
     >
       {props.children}
