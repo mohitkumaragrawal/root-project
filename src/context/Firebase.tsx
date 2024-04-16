@@ -25,6 +25,8 @@ import {
 } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
+import type { ContactFormSchema } from "@/lib/schema";
+
 const FirebaseContext = createContext(null);
 
 const firebaseConfig = {
@@ -79,7 +81,10 @@ export const FirebaseProvider = (props) => {
       const vendorRef = doc(firestore, "vendors", vendorType + "s");
       const objRef = collection(vendorRef, vendorType);
       const objSnapshot = await getDocs(objRef);
-      const venues = objSnapshot.docs.map((doc) => doc.data());
+      const venues = objSnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
       // console.log("inside firebase", venues);
       return venues;
     } catch (error) {
@@ -102,7 +107,7 @@ export const FirebaseProvider = (props) => {
           {
             method: "POST",
             body: formData,
-          }
+          },
         );
         const result = await response.json();
         const imageUrl = result.data.url;
@@ -138,6 +143,18 @@ export const FirebaseProvider = (props) => {
     }
   };
 
+  const readVendorById = async (vendorType, id) => {
+    const vendorRef = doc(firestore, "vendors", vendorType + "s");
+    const objRef = doc(collection(vendorRef, vendorType), id);
+    const objSnapshot = await getDoc(objRef);
+    const vendor = objSnapshot.data();
+    return vendor;
+  };
+
+  const submitConnectForm = async (formData) => {
+    await addDoc(collection(firestore, "connect"), formData);
+  };
+
   return (
     <FirebaseContext.Provider
       value={{
@@ -148,6 +165,8 @@ export const FirebaseProvider = (props) => {
         viewVendors,
         createVendor,
         viewImages,
+        submitConnectForm,
+        readVendorById,
       }}
     >
       {props.children}
