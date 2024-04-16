@@ -12,5 +12,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <App />
       </ContactPopupContextProvider>
     </FirebaseProvider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );
