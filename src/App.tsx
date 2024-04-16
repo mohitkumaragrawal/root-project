@@ -7,6 +7,7 @@ import Layout from "./pages/layout";
 import Index from "./pages/index";
 import Gallary from "./pages/Gallary";
 import Admin from "./pages/admin";
+import VendorPage from "./pages/vendor";
 
 const router = createBrowserRouter([
   {
@@ -32,7 +33,12 @@ const router = createBrowserRouter([
       {
         path: "/admin",
         element: <Admin />,
-      }
+      },
+
+      {
+        path: "/vendor",
+        element: <VendorPage />,
+      },
     ],
   },
 ]);

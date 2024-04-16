@@ -1,8 +1,14 @@
 import GridLayout from "@/component/GridLyour";
 import { Button } from "@/components/ui/button";
 // import * as React from "react";
-//
-import Autoplay from "embla-carousel-react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -11,6 +17,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import React, { useEffect, useState } from "react";
+import { useFirebase } from "@/context/Firebase";
 
 import {
   Card,
@@ -23,121 +31,193 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Contact, LocateFixed, Mail, MessageCircle, Phone } from "lucide-react";
+import { Contact, Loader2, LocateFixed, Mail, Phone } from "lucide-react";
 import Container from "@/components/container";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
-//data
-const data = {
-  name: "The Vintage Aarone Farm",
-  address: "A5, Asola Road, Near Shani dham mandir chhatarpur",
-  email: "vintagethefarm@gmail.com",
-  Price_Per_Plate: {
-    Veg: "1500 without rent",
-    "Non-Veg": "1800 without rent",
-  },
-
-  facilities: {
-    Capacity: "100-500 Pax",
-    Category: "Farm House",
-    "Function Duration": "Minimum 2 days function with stays",
-    "Farm house Area": "3.5 Acre",
-  },
-  area: {
-    Accommodation: "5 BR Villa",
-    Pool: "Swimming Pool with poolside area (Popular for poolside Haldi Function)",
-    Lawn: [
-      {
-        name: "Queen Lawn",
-        capacity: "200-250 max",
-        features:
-          "Beautiful Lawn with landscaping. Popular for Mehandi, Sagan, Sangeet, Cocktail function, Day Wedding, etc.",
-      },
-      {
-        name: "King Lawn",
-        capacity: "500-600 max",
-        features:
-          "Front lawn with natural fountain and landscaping. Popular for Wedding function, live music event, Mandap Setup in front of fountain.",
-      },
-    ],
-  },
-  brief:
-    "We are pleased to introduce our farm house “The Vintage - Aarone Farms” with some salient features. Location : Asola -Chhatarpur Farm house Area : 3.5 Acre Our farm house is famous for minimum 2 days function and stays like 1st day you can enjoy your mehandi and sagan/ sngeet/ cocktail function in queen lawn and next day you can enjoy Haldi at pool Side and wedding in Front King lawn.",
-};
-//main component Result
+import { Link } from "react-router-dom";
+import Skeleton from "@/components/skeleton";
+import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
+import { DialogContent } from "@/components/ui/dialog";
 
 const Result = () => {
-  return (
-    <Container>
-      <div className="min-w-[80vw] lg:max-w-[80vw] xs:max-w-[95vw] mb-3">
-        <GridLayout left={<LeftBar />} right={<RightBar />} />
-      </div>
-    </Container>
-  );
-};
+  const { viewVendors } = useFirebase();
+  const [vendorsData, setVendorsData] = useState([]);
+  useEffect(() => {
+    console.log("clicked");
+    console.log(viewVendors);
+    const fetchData = async () => {
+      try {
+        await viewVendors("venue").then((vendorsD) => {
+          setVendorsData(vendorsD);
+        });
+      } catch (error) {
+        console.error("Error fetching vendors:", error);
+      }
+    };
+    fetchData();
+  }, [viewVendors]);
 
-const LeftBar = () => {
   return (
     <>
-      <div className="p-1 border rounded">
-        <ResultCarousel />
-        {/* <CarouselDefault /> */}
-      </div>
-      <AboutCard />
-
-      <AreaCard />
-      <MagicTabs />
+      <Container>
+        <div className="mb-4 ml-3">
+          <BreadcrumbNew />
+        </div>
+        <div className="min-w-[80vw] lg:max-w-[80vw] xs:max-w-[95vw] mb-3">
+          {vendorsData && vendorsData[0] ? (
+            <>
+              <GridLayout
+                left={<LeftBar data={vendorsData[1]} />}
+                right={<RightBar data={vendorsData[1]} />}
+              />
+              <div className="mb-4 hidden sm:block">
+                <AboutCard data={vendorsData[1]} />
+              </div>
+              <MagicTabs urls={vendorsData[1]?.urls ?? []} />
+            </>
+          ) : (
+            <div className="space-y-3 gap-3">
+              <div className="flex gap-2 sm:flex-row flex-col">
+                <Skeleton className="w-full h-96 flex-[2] m-0" />
+                <Skeleton className="w-full h-96 flex-[1] m-0" />
+              </div>
+              <Skeleton className="w-full h-48" />
+              <Skeleton className="w-full h-56" />
+            </div>
+          )}
+        </div>
+      </Container>
     </>
   );
 };
 
-const RightBar = () => {
+const LeftBar = ({ data }: any) => {
+  return (
+    <>
+      <div className="p-1 border rounded">
+        <ResultCarousel urls={data?.urls ?? []} />
+      </div>
+      <div className="mb-4 block sm:hidden">
+        <AboutCard data={data} />
+      </div>
+      <AreaCard data={data} />
+      <div className="block sm:hidden mt-1">
+        <MobilePricing data={data} />
+      </div>
+    </>
+  );
+};
+
+const MobilePricing = ({ data }: any) => {
+  return (
+    <Card className="border">
+      <CardHeader>
+        <CardTitle>Pricing</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="grid grid-cols-2 gap-1 ">
+          {data?.price_per_plate &&
+            Object.entries(data?.price_per_plate).map(([key, value]) => (
+              <div key={key}>
+                <p className="text-lg font-semibold capitalize">
+                  {key.replace("_", " ")}
+                </p>
+                <p className=" p-1 pl-4 shadow-sm shadow-red-300 rounded-lg border-gray-500 mt-1">
+                  ₹{value as string}
+                </p>
+              </div>
+            ))}
+        </div>
+        {/* <PricingAccord /> */}
+        <div className="mt-2 flex p-3  justify-center">
+          <div className="flex justify-center gap-3">
+            <a href={`mailto:${data.email}`}>
+              <Button
+                variant="default"
+                className="flex items-center justify-center gap-1 bg-rose-500 text-white"
+              >
+                <Mail />
+                Message
+              </Button>
+            </a>
+            <a href="tel:8700921823">
+              <Button
+                // variant="destructive"
+                className="flex items-center justify-center gap-1 bg-green-700"
+              >
+                <Phone />
+                Contact
+              </Button>
+            </a>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+const RightBar = ({ data }: any) => {
   return (
     <>
       <div>
-        <Card>
+        <Card className="border">
           <CardHeader>
             <CardTitle>Pricing</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-2 gap-2 ">
-              {Object.entries(data.Price_Per_Plate).map(([key, value]) => (
-                <div key={key}>
-                  <p className="text-lg font-semibold">{key}</p>
-                  <p className="border-b border-gray-500">₹{value}</p>
-                </div>
-              ))}
+            <div className="grid grid-cols-2 gap-1 ">
+              {data?.price_per_plate &&
+                Object.entries(data?.price_per_plate).map(([key, value]) => (
+                  <div key={key}>
+                    <p className="text-lg font-semibold capitalize">
+                      {key.replace("_", " ")}
+                    </p>
+                    <p className=" p-1 pl-4 shadow-sm shadow-red-300 rounded-lg border-gray-500 mt-1">
+                      ₹{value as string}
+                    </p>
+                  </div>
+                ))}
             </div>
             <PricingAccord />
-            <Card className="mt-2 flex p-3  justify-center">
+            <div className="mt-2 flex p-3  justify-center">
               <div className="flex justify-center gap-3">
-                <Button
-                  variant="default"
-                  className="flex items-center justify-center gap-1 bg-rose-500 text-white"
-                >
-                  <Mail />
-                  Message
-                </Button>
-                <Button
-                  // variant="destructive"
-                  className="flex items-center justify-center gap-1 bg-green-700"
-                >
-                  <Phone />
-                  Contact
-                </Button>
+                <a href={`mailto:${data.email}`}>
+                  <Button
+                    variant="default"
+                    className="flex items-center justify-center gap-1 bg-rose-500 text-white"
+                  >
+                    <Mail />
+                    Message
+                  </Button>
+                </a>
+                <a href="tel:8700921823">
+                  <Button
+                    // variant="destructive"
+                    className="flex items-center justify-center gap-1 bg-green-700"
+                  >
+                    <Phone />
+                    Contact
+                  </Button>
+                </a>
               </div>
-            </Card>
+            </div>
           </CardContent>
         </Card>
-        <Facilities />
+        {/* <Facilities /> */}
       </div>
     </>
   );
 };
 
-const ResultCarousel = () => {
+const ResultCarousel = ({ urls }: any) => {
   return (
     <>
       <div className="flex justify-center items-center w-full ">
@@ -148,10 +228,10 @@ const ResultCarousel = () => {
           }}
         >
           <CarouselContent>
-            {Array.from({ length: 5 }).map((_, index) => (
+            {urls?.map((img, index) => (
               <CarouselItem key={index}>
                 <img
-                  src={`https://picsum.photos/1000/1000?random=${index}`}
+                  src={img}
                   alt="random"
                   className="w-full h-96  md:h-[27rem] object-fill"
                 />
@@ -165,29 +245,9 @@ const ResultCarousel = () => {
   );
 };
 
-const Facilities = () => {
+const AboutCard = ({ data }) => {
   return (
-    <Card className="mt-2">
-      <CardHeader>
-        <CardTitle>Facilities</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-2 gap-2 mt-2">
-          {Object.entries(data.facilities).map(([key, value]) => (
-            <div key={key}>
-              <p className="text-lg font-semibold">{key}</p>
-              <p>{value}</p>
-            </div>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
-  );
-};
-
-const AboutCard = () => {
-  return (
-    <Card className="mt-2 bg-rose-200">
+    <Card className="mt-2 bg-white shadow-none">
       <CardHeader>
         <CardTitle>{data.name}</CardTitle>
         <CardDescription>About</CardDescription>
@@ -227,93 +287,94 @@ const AboutCard = () => {
   );
 };
 
-export function MagicTabs() {
+export function MagicTabs({ urls }) {
+  // const Url = urls.slice(0, 9);
+
+  const itemsPerPage = 9;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Logic to slice the URLs based on the current page
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const visibleUrls = urls.slice(startIndex, endIndex);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   return (
-    <Card className="mt-2 p-2 flex justify-center">
-      <Tabs defaultValue="portfolio" className="w-[800px]">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
-          <TabsTrigger value="album">Album</TabsTrigger>
-          <TabsTrigger value="video">Video</TabsTrigger>
+    <Card className="mt-2 mb-4 p-2 flex justify-center">
+      <Tabs defaultValue="portfolio" className="w-full" value="Album">
+        <TabsList className="grid w-full grid-cols-1">
+          <TabsTrigger value="Album">Album</TabsTrigger>
         </TabsList>
-        <TabsContent value="portfolio">
-          <Card>
-            <div className=" gap-2 grid grid-col-2 md:grid grid-cols-2 ">
-              {Array.from({ length: 6 }).map((_, index) => (
-                <img
-                  key={index}
-                  src={`https://picsum.photos/1000/1000?random=${index}`}
-                  alt="random"
-                  className="w-full h-60 object-cover"
-                />
-              ))}
-            </div>
-          </Card>
-        </TabsContent>
-        <TabsContent value="album">
-          {" "}
-          <Card>
-            <div className="lg:grid grid-cols-3 gap-2 ">
-              {Array.from({ length: 6 }).map((_, index) => (
-                <img
-                  key={index}
-                  src={`https://picsum.photos/1000/1000?random=${index}`}
-                  alt="random"
-                  className="w-full h-60 object-fill"
-                />
-              ))}
-            </div>
-          </Card>
-        </TabsContent>
-        <TabsContent value="video">
-          {" "}
-          <Card>
-            <div className="lg:grid grid-cols-3 gap-2 ">
-              {Array.from({ length: 6 }).map((_, index) => (
-                <img
-                  key={index}
-                  src={`https://picsum.photos/1000/1000?random=${index}`}
-                  alt="random"
-                  className="w-full h-60 object-fill"
-                />
-              ))}
-            </div>
-          </Card>
+        <TabsContent value="Album">
+          {/* <Card> */}
+          <div className=" gap-1 grid grid-cols-2 md:grid-cols-3 ">
+            {visibleUrls?.map((img, index) => (
+              <Dialog key={index}>
+                <DialogTrigger asChild>
+                  <img
+                    key={index}
+                    src={img}
+                    alt="random"
+                    className="w-full h-60 object-cover shadow-md cursor-pointer"
+                  />
+                </DialogTrigger>
+                <DialogContent className="w-[100vw] max-w-[95vw] max-h-[95vh] h-[100vw] flex flex-col overflow-hidden">
+                  <div className="w-full flex-1 h-full">
+                    <img
+                      src={img}
+                      alt="image"
+                      className="w-full h-full rounded-sm object-contain"
+                    />
+                  </div>
+                </DialogContent>
+              </Dialog>
+            ))}
+          </div>
+
+          <div className="mt-4">
+            <PaginationNew
+              totalItems={urls.length}
+              itemsPerPage={itemsPerPage}
+              onPageChange={handlePageChange}
+            />
+          </div>
         </TabsContent>
       </Tabs>
     </Card>
   );
 }
 
-const AreaCard = ({}) => {
+const AreaCard = ({ data }) => {
   return (
     <>
       {" "}
-      <Card className="mt-2">
+      <Card className="mt-2 shadow-none">
         <CardHeader>
           <CardTitle>Areas available</CardTitle>
           <CardDescription>Area</CardDescription>
         </CardHeader>
         <CardContent>
-          <div>
+          {/* <div>
             <p className="text-lg font-semibold">Accommodation</p>
             <p>{data.area.Accommodation}</p>
-          </div>
-          <div className="mt-2">
+          </div> */}
+          {/* <div className="mt-2">
             <p className="text-lg font-semibold">Pool</p>
             <p>{data.area.Pool}</p>
-          </div>
+          </div> */}
           <div className="mt-2">
             <p className="text-lg font-semibold">Lawn</p>
             <div className="grid grid-cols-1 gap-2">
-              {data.area.Lawn.map((lawn, index) => (
+              {data.lawns.map((lawn, index) => (
                 <div key={index} className="border p-3 rounded">
                   <p className="text-lg font-semibold underline">{lawn.name}</p>
                   <p className="font-semibold">
                     <span className="bold mr-1">Capacity</span>
-                    {lawn.capacity}
+                    {lawn.category}
                   </p>
-                  <p className="text-justify">{lawn.features}</p>
                 </div>
               ))}
             </div>
@@ -330,15 +391,105 @@ const PricingAccord = () => {
       <AccordionItem value="item-1">
         <AccordionTrigger>Is it accessible?</AccordionTrigger>
         <AccordionContent>
-          Yes. It adheres to the WAI-ARIA design pattern.
+          Yes. It is easy accessible from main road.
         </AccordionContent>
       </AccordionItem>
     </Accordion>
   );
 };
 
-const RightForm = () => {
-  return <></>;
+export function BreadcrumbNew() {
+  return (
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          {/* <BreadcrumbLink href="/">Home</BreadcrumbLink> */}
+          <Link to="/">Home</Link>
+        </BreadcrumbItem>{" "}
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          {/* <BreadcrumbLink href="/">Home</BreadcrumbLink> */}
+          <Link to="/">Vendors</Link>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          {/* <BreadcrumbLink href="/">Home</BreadcrumbLink> */}
+          <Link to="/">Venues</Link>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage className="text-rose-400">Result</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  );
+}
+const PaginationNew = ({ totalItems, itemsPerPage, onPageChange }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleClick = (page) => {
+    setCurrentPage(page);
+    onPageChange(page);
+  };
+  useEffect(() => {
+    setIsLoading(true);
+
+    const delay = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(delay);
+  }, [currentPage, onPageChange]);
+
+  const renderPageNumbers = () => {
+    const pageNumbers = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumbers.push(
+        <PaginationItem key={i}>
+          <PaginationLink
+            onClick={() => handleClick(i)}
+            className="cursor-pointer"
+          >
+            {i}
+          </PaginationLink>
+        </PaginationItem>,
+      );
+    }
+    return pageNumbers;
+  };
+
+  return (
+    <Pagination>
+      <PaginationContent>
+        <PaginationItem>
+          <PaginationPrevious
+            onClick={() => handleClick(currentPage - 1)}
+            className={`text-rose-500 ${
+              currentPage === 1 && "opacity-50 cursor-not-allowed"
+            }`}
+          />
+        </PaginationItem>
+
+        {renderPageNumbers()}
+
+        <PaginationItem>
+          <PaginationNext
+            onClick={() => handleClick(currentPage + 1)}
+            className={`text-rose-500 ${
+              currentPage === totalPages && "opacity-50 cursor-not-allowed"
+            }`}
+          />
+        </PaginationItem>
+      </PaginationContent>
+      {isLoading && (
+        <div className="flex justiffy-center items-center">
+          <Loader2 className="animate-spin text-rose-600" />
+        </div>
+      )}
+    </Pagination>
+  );
 };
 
 export default Result;

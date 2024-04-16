@@ -40,7 +40,7 @@ export function ReponsiveCombobox(props: ReponsiveComboboxProps) {
     return (
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button variant="outline" className="justify-start">
+          <Button variant="outline" className="justify-start min-w-[300px]">
             {selectedItem ? (
               <>
                 {props.startIcon}
@@ -65,7 +65,7 @@ export function ReponsiveCombobox(props: ReponsiveComboboxProps) {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button variant="outline" className="justify-start">
+        <Button variant="outline" className="justify-start min-w-[300px]">
           {selectedItem ? (
             <>
               {props.startIcon}

@@ -11,7 +11,7 @@ function ContactUs() {
         Contact us to get best deals
       </p>
 
-      <div className="flex mt-5 gap-6">
+      <div className="flex mt-5 gap-12 flex-wrap">
         <div className="space-y-2">
           <p className="font-bold text-rose-500">For Vendors</p>
           <p className="flex items-center gap-1 text-gray-800">
@@ -23,7 +23,7 @@ function ContactUs() {
             +91 99999999
           </p>
         </div>
-        <div className="border-l-2 border-rose-300"></div>
+        {/* <div className="border-l-2 border-rose-300"></div> */}
         <div className="space-y-2">
           <p className="font-bold text-rose-500">For Users</p>
           <p className="flex items-center gap-1 text-gray-800">
