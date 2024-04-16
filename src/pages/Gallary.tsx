@@ -39,10 +39,8 @@ function Gallery() {
     fetchData();
   }, []);
 
-  // Calculate total number of pages
   const totalPages = Math.ceil(imageUrls.length / itemsPerPage);
 
-  // Slice image array to display images for the current page
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentImages = imageUrls.slice(startIndex, endIndex);
@@ -144,17 +142,11 @@ export function PaginationGallary({ totalPages, currentPage, onPageChange }) {
     <Pagination>
       <PaginationContent>
         <PaginationItem>
-          <PaginationPrevious
-            onClick={() => handleClick(currentPage - 1)}
-            // disabled={currentPage === 1}
-          />
+          <PaginationPrevious onClick={() => handleClick(currentPage - 1)} />
         </PaginationItem>
         {renderPageNumbers()}
         <PaginationItem>
-          <PaginationNext
-            onClick={() => handleClick(currentPage + 1)}
-            // disabled={currentPage === totalPages}
-          />
+          <PaginationNext onClick={() => handleClick(currentPage + 1)} />
         </PaginationItem>
       </PaginationContent>
     </Pagination>
