@@ -8,6 +8,7 @@ import Index from "./pages/index";
 import Gallary from "./pages/Gallary";
 import Admin from "./pages/admin";
 import VendorPage from "./pages/vendor";
+import NotFound from "./pages/NotFound";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,7 @@ const router = createBrowserRouter([
         path: "/vendor/:vendor/:id",
         element: <Result />,
       },
+      { path: "/error", element: <NotFound /> },
     ],
   },
 ]);
