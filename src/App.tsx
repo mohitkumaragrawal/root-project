@@ -50,7 +50,10 @@ const router = createBrowserRouter([
         path: "/vendor/:vendor/:id",
         element: <Result />,
       },
-      { path: "/error", element: <NotFound /> },
+      {
+        path: "*",
+        element: <NotFound />,
+      },
     ],
   },
 ]);

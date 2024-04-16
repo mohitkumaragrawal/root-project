@@ -16,7 +16,10 @@ const NotFound = () => {
             The Page you were looking for doesn't exist
           </p>
           <Link to={"/"}>
-            <Button className="bg-[#D20062]">Go Home</Button>
+            <Button className="bg-[#D20062]">
+              {" "}
+              <ArrowLeftIcon /> Go Home
+            </Button>
           </Link>
         </div>
       </div>
