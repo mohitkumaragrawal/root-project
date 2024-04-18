@@ -17,7 +17,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useFirebase } from "@/context/Firebase";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -28,13 +28,6 @@ import {
 } from "@/components/ui/carousel";
 import { Contact, Loader2, LocateFixed, Mail, Phone } from "lucide-react";
 import Container from "@/components/container";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 
 import { Link, useParams } from "react-router-dom";
 import Skeleton from "@/components/skeleton";
@@ -42,6 +35,7 @@ import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
 import { DialogContent } from "@/components/ui/dialog";
 import { GiRoundStar } from "react-icons/gi";
 import { FaBuilding } from "react-icons/fa";
+import { PageBreadcrumbs } from "@/components/page-breadcrumb";
 
 const Result = () => {
   const { viewVendors, readVendorById } = useFirebase();
@@ -62,11 +56,16 @@ const Result = () => {
     fetchData();
   }, [viewVendors]);
 
+  const title = useMemo(() => {
+    if (!vendorsData || vendorsData.length === 0) return "Result";
+    return vendorsData[0].title;
+  }, [vendorsData]);
+
   return (
     <>
       <Container>
         <div className="mb-4 ml-3">
-          <BreadcrumbNew />
+          <BreadcrumbNew title={title} />
         </div>
         <div className=" mb-3">
           {vendorsData && vendorsData[0] ? (
@@ -389,31 +388,16 @@ const PricingAccord = () => {
   );
 };
 
-function BreadcrumbNew() {
-  return (
-    <Breadcrumb>
-      <BreadcrumbList>
-        <BreadcrumbItem>
-          {/* <BreadcrumbLink href="/">Home</BreadcrumbLink> */}
-          <Link to="/">Home</Link>
-        </BreadcrumbItem>{" "}
-        <BreadcrumbSeparator />
-        <BreadcrumbItem>
-          {/* <BreadcrumbLink href="/">Home</BreadcrumbLink> */}
-          <Link to="/">Vendors</Link>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbItem>
-          {/* <BreadcrumbLink href="/">Home</BreadcrumbLink> */}
-          <Link to="/">Venues</Link>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbItem>
-          <BreadcrumbPage className="text-rose-400">Result</BreadcrumbPage>
-        </BreadcrumbItem>
-      </BreadcrumbList>
-    </Breadcrumb>
-  );
+function BreadcrumbNew({ title }) {
+  const { vendor } = useParams();
+  const breadcrumbs = [
+    { name: "Home", link: "/" },
+    { name: "Vendors", link: "/vendor" },
+    { name: vendor, link: `/vendor/${vendor}` },
+    { name: title, link: "#" },
+  ];
+
+  return <PageBreadcrumbs breadcrumb={breadcrumbs} />;
 }
 const PaginationNew = ({ totalItems, itemsPerPage, onPageChange }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -445,7 +429,7 @@ const PaginationNew = ({ totalItems, itemsPerPage, onPageChange }) => {
           >
             {i}
           </PaginationLink>
-        </PaginationItem>
+        </PaginationItem>,
       );
     }
     return pageNumbers;
@@ -457,8 +441,9 @@ const PaginationNew = ({ totalItems, itemsPerPage, onPageChange }) => {
         <PaginationItem>
           <PaginationPrevious
             onClick={() => handleClick(currentPage - 1)}
-            className={`text-rose-500 ${currentPage === 1 && "opacity-50 cursor-not-allowed"
-              }`}
+            className={`text-rose-500 ${
+              currentPage === 1 && "opacity-50 cursor-not-allowed"
+            }`}
           />
         </PaginationItem>
 
@@ -467,8 +452,9 @@ const PaginationNew = ({ totalItems, itemsPerPage, onPageChange }) => {
         <PaginationItem>
           <PaginationNext
             onClick={() => handleClick(currentPage + 1)}
-            className={`text-rose-500 ${currentPage === totalPages && "opacity-50 cursor-not-allowed"
-              }`}
+            className={`text-rose-500 ${
+              currentPage === totalPages && "opacity-50 cursor-not-allowed"
+            }`}
           />
         </PaginationItem>
       </PaginationContent>

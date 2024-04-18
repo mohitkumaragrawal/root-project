@@ -1,5 +1,6 @@
 import { weddingCategores } from "@/data/wedding-categories";
 import { Link } from "react-router-dom";
+import { PageBreadcrumbs } from "../page-breadcrumb";
 export function WeddingCategories() {
   const colors = [
     "bg-yellow-200",
@@ -21,7 +22,8 @@ export function WeddingCategories() {
   return (
     <section className="mb-12">
       <h2 className="text-xl font-bold my-5">Weddding Categories</h2>
-      <div className="grid sm:grid-cols-2 gap-5">
+
+      <div className="grid sm:grid-cols-2 gap-5 mt-6">
         {weddingCategores.map((category, index) => (
           <Link to={`/vendor/${category.value}`}>
             <div
