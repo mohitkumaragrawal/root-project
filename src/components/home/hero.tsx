@@ -24,8 +24,8 @@ export function Hero() {
     const baseUrl = '/vendor/venue';
     console.log(selectedCity, selectedVenueType);
     const queryParams = new URLSearchParams({
-      city: 'New Delhi',
-      type: 'Farm House',
+      city: selectedCity,
+      type: selectedVenueType,
     });
     const fullUrl = `${baseUrl}?${queryParams.toString()}`;
     navigate(fullUrl);
@@ -59,7 +59,7 @@ export function Hero() {
             }))}
 
             startIcon={<FaCity className="mr-2" />}
-
+            onChange={(v) => { handleCityChange(v) }}
           >
 
             <FaCity className="mr-2" /> City
@@ -72,7 +72,9 @@ export function Hero() {
 
             }))}
             startIcon={<GiPartyPopper className="mr-2" />}
-
+            onChange={(v) => {
+              handleVenueTypeChange(v)
+            }}
           >
 
             <GiPartyPopper className="mr-2" /> Venue Type

@@ -27,6 +27,8 @@ interface ReponsiveComboboxProps {
 
   children?: React.ReactNode;
   startIcon?: React.ReactNode;
+
+  onChange?: (newItem: ComboboxItem) => void;
 }
 
 export function ReponsiveCombobox(props: ReponsiveComboboxProps) {
@@ -35,6 +37,19 @@ export function ReponsiveCombobox(props: ReponsiveComboboxProps) {
   const [selectedItem, setSelectedItem] = React.useState<ComboboxItem | null>(
     null,
   );
+
+  // React.useEffect(() => {
+  //   if (props.onChange && selectedItem)
+  //     props.onChange(selectedItem);
+  // }, [selectedItem])
+
+  const handleChange = (newItem: ComboboxItem) => {
+    setSelectedItem(newItem);
+    if (props.onChange && newItem) {
+      props.onChange(newItem);
+      console.log("on Change hit", newItem);
+    }
+  }
 
   if (isDesktop) {
     return (
@@ -54,7 +69,7 @@ export function ReponsiveCombobox(props: ReponsiveComboboxProps) {
         <PopoverContent className="p-0" align="start">
           <ItemList
             setOpen={setOpen}
-            setSelectedStatus={setSelectedItem}
+            setSelectedStatus={handleChange}
             items={props.items}
           />
         </PopoverContent>
@@ -80,7 +95,7 @@ export function ReponsiveCombobox(props: ReponsiveComboboxProps) {
         <div className="mt-4 border-t">
           <ItemList
             setOpen={setOpen}
-            setSelectedStatus={setSelectedItem}
+            setSelectedStatus={handleChange}
             items={props.items}
           />
         </div>
