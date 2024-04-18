@@ -2,12 +2,20 @@
 
 import { createContext, useEffect, useState } from "react";
 
-type ContactPopupContextType = { open: boolean; setOpen: (x: boolean) => void };
+type ContactPopupContextType = {
+  open: boolean;
+  setOpen: (x: boolean) => void;
 
-export const ContactPopupContext = createContext<ContactPopupContextType>({
-  open: false,
-  setOpen: () => {},
-});
+  hasSubmitted: boolean;
+  setHasSubmitted: (x: boolean) => void;
+
+  discountOpen: boolean;
+  setDiscountOpen: (x: boolean) => void;
+
+  handleContactPopupClose: () => void;
+};
+
+export const ContactPopupContext = createContext<ContactPopupContextType>(null);
 
 const duration = 1000 * 60;
 export function ContactPopupContextProvider({
@@ -16,6 +24,8 @@ export function ContactPopupContextProvider({
   children: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
+  const [discountOpen, setDiscountOpen] = useState(false);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -24,8 +34,25 @@ export function ContactPopupContextProvider({
 
     return () => clearTimeout(timeout);
   }, [setOpen]);
+
+  const handleContactPopupClose = () => {
+    if (!hasSubmitted) {
+      setDiscountOpen(true);
+    }
+  };
+
   return (
-    <ContactPopupContext.Provider value={{ open, setOpen }}>
+    <ContactPopupContext.Provider
+      value={{
+        open,
+        setOpen,
+        hasSubmitted,
+        setHasSubmitted,
+        handleContactPopupClose,
+        discountOpen,
+        setDiscountOpen,
+      }}
+    >
       {children}
     </ContactPopupContext.Provider>
   );
