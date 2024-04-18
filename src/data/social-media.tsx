@@ -1,29 +1,28 @@
-import { FacebookIcon, InstagramIcon, XIcon, YoutubeIcon } from "lucide-react";
+import { FaXTwitter } from "react-icons/fa6";
+import { SiFacebook } from "react-icons/si";
+import { FaInstagram, FaYoutube } from "react-icons/fa";
+
+const ICON_SIZE = 18;
 
 export const socialMedia = [
   {
     name: "Facebook",
     link: "#",
-    icon: <FacebookIcon />,
+    icon: <SiFacebook size={ICON_SIZE} />,
   },
   {
-    name: "X",
+    name: "Twitter",
     link: "#",
-    icon: <XIcon />,
+    icon: <FaXTwitter size={ICON_SIZE} />,
   },
   {
     name: "Instagram",
     link: "#",
-    icon: <InstagramIcon />,
-  },
-  {
-    name: "Snapchat",
-    link: "#",
-    icon: <FacebookIcon />,
+    icon: <FaInstagram size={ICON_SIZE} />,
   },
   {
     name: "Youtube",
     link: "#",
-    icon: <YoutubeIcon />,
+    icon: <FaYoutube size={ICON_SIZE} />,
   },
 ];

@@ -25,7 +25,7 @@ import { Button } from "@/components/ui/button";
 
 import { IoMdMenu } from "react-icons/io";
 import { User } from "firebase/auth";
-import { LogOut } from "lucide-react";
+import { ContactIcon, LogOut } from "lucide-react";
 import { FaGoogle } from "react-icons/fa";
 
 import logo from "@/assets/logo-removebg-preview.png";
@@ -205,8 +205,12 @@ function ContactUsButton() {
   const { setOpen } = useContext(ContactPopupContext);
 
   return (
-    <Button variant="secondary" className="mr-3" onClick={() => setOpen(true)}>
-      Contact
+    <Button
+      variant="secondary"
+      className="mr-3 rounded-full p-2 size-10 border"
+      onClick={() => setOpen(true)}
+    >
+      <ContactIcon size={20} />
     </Button>
   );
 }
