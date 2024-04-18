@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useFirebase } from "@/context/Firebase";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { PageBreadcrumbs } from "@/components/page-breadcrumb";
+import Skeleton from "@/components/skeleton";
 
 const validVendors = ["venue", "photographer", "music"];
 
@@ -12,6 +13,8 @@ const Result = () => {
   const firebase = useFirebase();
   const navigate = useNavigate();
   const { vendor } = useParams();
+
+  const [loading, setLoading] = useState(true);
 
   const [urlSearchParams] = useSearchParams();
   const city = urlSearchParams.get("city");
@@ -56,10 +59,12 @@ const Result = () => {
         if (city && type) {
           await firebase.queryVenues(city, type).then((venues) => {
             setData(venues);
+            setLoading(false);
           });
         } else {
           await firebase.viewVendors(vendor).then((v) => {
             setData(v);
+            setLoading(false);
           });
         }
       } catch (error) {
@@ -78,6 +83,43 @@ const Result = () => {
 
     return pluralizedWord;
   }
+
+  if (loading) {
+    const skeletonCount = [1, 2, 3, 4, 5, 6];
+
+    return (
+      <>
+        {data ? (
+          <div>
+            <Container className="mb-0">
+              <h1 className="font-bold text-3xl">
+                {capitalizeAndPluralize(vendor)}
+              </h1>
+              Showing <strong>{data.length}</strong> results
+            </Container>
+
+            <Container className="mt-9 mb-0">
+              <PageBreadcrumbs breadcrumb={breadcrumb} />
+            </Container>
+
+            <Container className="flex flex-wrap gap-5 items-center justify-center mb-12 mt-6">
+              {skeletonCount.map((item, index) => (
+                <div className="w-[400px]">
+                  <Skeleton
+                    className="w-full h-[300px] rounded-lg"
+                    key={index}
+                  />
+                </div>
+              ))}
+            </Container>
+          </div>
+        ) : (
+          <div>Loading..</div>
+        )}
+      </>
+    );
+  }
+
   return (
     <>
       {data ? (
