@@ -97,18 +97,11 @@ export function Footer() {
     <div className="border-t-2 border-rose-300 pb-12">
       <Container className="px-4 sm:px-6">
         <p className="font-bold text-lg text-rose-500 my-3">
-          RooT - Wedding Planner
+          Wedding Central - Your Ultimate Wedding Planning Destination
         </p>
-        <p className="text-gray-800 my-3">Plan your wedding with Us </p>
+        <p className="text-gray-800 my-3">Discover the Perfect Wedding Experience with Us</p>
         <p className="text-gray-800">
-          RooT is an Indian Wedding Planning Website and app where you can find
-          the best wedding vendors, with prices and reviews at the click of a
-          button. Whether you are looking to hire wedding planners in India, or
-          looking for the top photographers, or just some ideas and inspiration
-          for your wedding. WedMeGood can help you solve your wedding planning
-          woes through its unique features. With a checklist, detailed vendor
-          list, inspiration gallery and blog - you won't need to spend hours
-          planning a wedding anymore.
+          Wedding Central is your premier Indian wedding planning platform, offering a seamless website. Explore a curated selection of top-notch wedding vendors, complete with transparent pricing and authentic reviews, all at your fingertips. Whether you're searching for seasoned wedding planners, elite photographers, or seeking inspiration and ideas for your big day, Wedding Central is your go-to solution. Our innovative features streamline your wedding planning journey, offering a comprehensive checklist, an extensive vendor directory and a captivating inspiration gallery. Say goodbye to endless hours of planning; let Wedding Central transform your wedding dreams into reality effortlessly.
         </p>
 
         <div className="flex flex-col md:flex-row gap-8">

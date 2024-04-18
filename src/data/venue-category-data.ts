@@ -3,48 +3,21 @@ export const venueType = [
     title: "Banquet Halls",
   },
   {
-    title: "Lawns / Farmhouses",
+    title: "Farm House",
   },
   {
     title: "Wedding Resorts",
-  },
-  {
-    title: "Small Function / Party Halls",
-  },
-  {
-    title: "Destination Wedding",
-  },
-  {
-    title: "Kalyana Mandapam",
-  },
-  {
-    title: "4 Start & Above Wedding Hotels",
-  },
-  {
-    title: "Venue Concierege Services",
   },
 ];
 
 export const venueCity = [
   {
-    title: "Mumbai",
+    title: "New Delhi",
   },
   {
-    title: "Banglore",
+    title: "Faridabad",
   },
   {
-    title: "Pune",
-  },
-  {
-    title: "Kolkata",
-  },
-  {
-    title: "Jaipur",
-  },
-  {
-    title: "Lucknow",
-  },
-  {
-    title: "Hydrabad",
+    title: "Ghaziabad",
   },
 ];

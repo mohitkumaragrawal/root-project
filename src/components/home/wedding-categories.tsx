@@ -1,5 +1,5 @@
 import { weddingCategores } from "@/data/wedding-categories";
-
+import { Link } from "react-router-dom";
 export function WeddingCategories() {
   const colors = [
     "bg-yellow-200",
@@ -23,12 +23,14 @@ export function WeddingCategories() {
       <h2 className="text-xl font-bold my-5">Weddding Categories</h2>
       <div className="grid sm:grid-cols-2 gap-5">
         {weddingCategores.map((category, index) => (
-          <div
-            className={`p-5 rounded-md w-full ${colors[index]} ${shadowColors[index]} shadow-lg cursor-pointer`}
-          >
-            <p className="font-bold">{category.title}</p>
-            <p className="text-gray-700">{category.subtittle}</p>
-          </div>
+          <Link to={`/vendor/${category.value}`}>
+            <div
+              className={`p-5 rounded-md w-full ${colors[index]} ${shadowColors[index]} shadow-lg cursor-pointer`}
+            >
+              <p className="font-bold">{category.title}</p>
+              <p className="text-gray-700">{category.subtittle}</p>
+            </div>
+          </Link>
         ))}
       </div>
     </section>

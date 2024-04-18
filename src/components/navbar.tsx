@@ -145,9 +145,9 @@ export function Navbar(props: { onOpen: () => void }) {
         </NavigationMenuList>
       </NavigationMenu>
 
-      <Link to="/gallary">
+      <Link to="/gallery">
         <Button className="hidden lg:block" variant="ghost">
-          Gallary
+          Gallery
         </Button>
       </Link>
 

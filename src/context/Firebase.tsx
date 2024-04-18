@@ -155,6 +155,26 @@ export const FirebaseProvider = (props) => {
     await addDoc(collection(firestore, "connect"), formData);
   };
 
+  // Function to query venues
+  const queryVenues = async (city: string, category: string) => {
+    console.log("from firebase", city, category);
+    try {
+      const vendorRef = doc(firestore, "vendors", "venues");
+      const venueRef = collection(vendorRef, "venue");
+      const q = query(venueRef, where("city", "==", city), where("category", "==", category));
+      const querySnapshot = await getDocs(q);
+      const venues = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      return venues;
+    } catch (error) {
+      console.error("Error querying venues:", error);
+      return [];
+    }
+  };
+
+
   return (
     <FirebaseContext.Provider
       value={{
@@ -167,6 +187,7 @@ export const FirebaseProvider = (props) => {
         viewImages,
         submitConnectForm,
         readVendorById,
+        queryVenues
       }}
     >
       {props.children}

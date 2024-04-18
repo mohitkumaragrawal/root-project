@@ -8,37 +8,26 @@ import { FaHamburger } from "react-icons/fa";
 export const sidebarData = [
   {
     name: "Venues",
-    link: "/vendors/pune/wedding-venues/",
+    link: "/vendor/venue",
     icon: <MdOutlineHomeWork size={24} />,
     subcategories: [
       {
         name: "Banquet Halls",
-        link: "/vendors/pune/wedding-venues/all/banquet-hall/",
+        link: "/vendor/venue",
       },
       {
         name: "Lawns / Farmhouses",
-        link: "/vendors/pune/wedding-venues/all/lawn-farmhouse/",
+        link: "/vendor/venue",
       },
       {
         name: "Wedding Resorts",
-        link: "/vendors/pune/wedding-venues/all/resort/",
+        link: "/vendor/venue",
       },
       {
         name: "Small Function / Party Halls",
-        link: "/vendors/pune/wedding-venues/all/small-function-halls/",
+        link: "/vendor/venue",
       },
-      {
-        name: "Destination Wedding",
-        link: "/vendors/pune/wedding-venues/all/destination-wedding-venues/",
-      },
-      {
-        name: "Kalyana Mandapams",
-        link: "/vendors/pune/wedding-venues/all/kalyan-mandapam/",
-      },
-      {
-        name: "4 Star & Above Wedding Hotels",
-        link: "/vendors/pune/wedding-venues/all/five-star/",
-      },
+
     ],
   },
   {
