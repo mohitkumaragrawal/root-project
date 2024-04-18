@@ -138,7 +138,7 @@ const MobilePricing = ({ data }: any) => {
         {/* <PricingAccord /> */}
         <div className="mt-2 flex p-3  justify-center border rounded-md">
           <div className="flex justify-center gap-3">
-            <a href={`mailto:${data.email}`}>
+            <a href={`mailto:${data.email} || "weddingcentral.in"`}>
               <Button
                 variant="default"
                 className="flex items-center justify-center gap-1 bg-rose-500 text-white"
@@ -188,7 +188,7 @@ const RightBar = ({ data }: any) => {
             {/* <PricingAccord /> */}
             <div className="mt-4 flex p-3  justify-center border border-1 rounded-md shadow-rose-300 ">
               <div className="flex justify-center gap-3">
-                <a href={`mailto:${data.email}`}>
+                <a href={`mailto:${data.email} || "weddingcentral.in"`}>
                   <Button
                     variant="default"
                     className="flex items-center justify-center gap-1 bg-rose-500 text-white"
@@ -280,7 +280,7 @@ const AboutCard = ({ data }) => {
               href={`mailto:${data?.email || "weddingcentral.in"}`}
               className="bold text-black ml-2 underline mt-2"
             >
-              {data.email || "weddingcentral.in"}
+              {data.email  || "weddingcentral.in"|| "weddingcentral.in"}
             </a>
           </div>
         </div>
@@ -290,7 +290,7 @@ const AboutCard = ({ data }) => {
 };
 
 export function MagicTabs({ urls }) {
-  const itemsPerPage = 9;
+  const itemsPerPage = 12;
   const [currentPage, setCurrentPage] = useState(1);
 
   // Logic to slice the URLs based on the current page

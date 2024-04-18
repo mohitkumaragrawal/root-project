@@ -90,15 +90,17 @@ function Gallery() {
                         src={imageUrl}
                       />
                     </DialogTrigger>
-                    <DialogContent>
-                      <div className="p-3">
+                    <DialogContent className="w-[100vw] max-w-[95vw] max-h-[95vh] h-[100vw] flex flex-col overflow-hidden">
+                
+                    <div className="w-full flex-1 h-full">
                         <img
                           alt={`gallery ${index}`}
-                          className="block h-full w-full rounded-lg object-cover object-center"
+                          className="w-full h-full rounded-sm object-contain"
                           src={imageUrl}
                         />
                       </div>
                     </DialogContent>
+                 
                   </Dialog>
                 </div>
               ))}
@@ -138,14 +140,35 @@ export function PaginationGallary({ totalPages, currentPage, onPageChange }) {
     onPageChange(page);
   };
 
+  const isFirstPage = currentPage === 1;
+  const isLastPage = currentPage === totalPages;
+
   const renderPageNumbers = () => {
     const pageNumbers = [];
-    for (let i = 1; i <= totalPages; i++) {
+    const maxVisiblePages = 4;
+
+    let startPage = currentPage - Math.floor(maxVisiblePages / 2);
+    if (startPage < 1) {
+      startPage = 1;
+    }
+
+    let endPage = startPage + maxVisiblePages - 1;
+    if (endPage > totalPages) {
+      endPage = totalPages;
+    }
+
+    if (endPage - startPage + 1 < maxVisiblePages) {
+      startPage = endPage - maxVisiblePages + 1;
+      if (startPage < 1) {
+        startPage = 1;
+      }
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
       pageNumbers.push(
         <PaginationItem key={i}>
           <PaginationLink
-            className="cursor-pointer "
-            // href="#"
+            className="cursor-pointer"
             onClick={() => handleClick(i)}
             isActive={i === currentPage}
           >
@@ -154,6 +177,7 @@ export function PaginationGallary({ totalPages, currentPage, onPageChange }) {
         </PaginationItem>
       );
     }
+
     return pageNumbers;
   };
 
@@ -162,20 +186,21 @@ export function PaginationGallary({ totalPages, currentPage, onPageChange }) {
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
-            onClick={() => handleClick(currentPage - 1)}
-            className="cursor-pointer"
+            onClick={() => handleClick(Math.max(1, currentPage - 1))}
+            className={`cursor-pointer ${isFirstPage ? 'opacity-50 pointer-events-none' : ''}`}
           />
         </PaginationItem>
         {renderPageNumbers()}
         <PaginationItem>
           <PaginationNext
-            onClick={() => handleClick(currentPage + 1)}
-            className="cursor-pointer"
+            onClick={() => handleClick(Math.min(totalPages, currentPage + 1))}
+            className={`cursor-pointer ${isLastPage ? 'opacity-50 pointer-events-none' : ''}`}
           />
         </PaginationItem>
       </PaginationContent>
     </Pagination>
   );
 }
+
 
 export default Gallery;
