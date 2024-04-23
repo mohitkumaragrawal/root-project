@@ -47,8 +47,7 @@ function Address() {
         Contact us to get best deals
       </p>
       <p className="mt-3 text-gray-800">
-        Second Floor, Ocus Technopolis, Sector 54 Golf Course Road, Gurgaon,
-        Haryana, India, 122002
+        Kapashera - Samalkha - Rajokri, South Delhi
       </p>
     </div>
   );
