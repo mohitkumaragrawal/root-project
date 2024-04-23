@@ -7,6 +7,7 @@ import { Sidebar } from "@/components/sidebar";
 import DelayedForm from "@/components/delayed-form";
 
 import { Toaster } from "@/components/ui/sonner";
+import DiscountForm from "@/components/discount-form";
 
 export default function Layout() {
   const [open, setOpen] = useState(false);
@@ -16,6 +17,7 @@ export default function Layout() {
       <Navbar onOpen={() => setOpen(true)} />
       <Sidebar open={open} onOpenChange={setOpen} />
       <DelayedForm />
+      <DiscountForm />
       <Outlet />
       <Footer />
       <Toaster />

@@ -24,7 +24,8 @@ import { useFirebase } from "@/context/Firebase";
 import { toast } from "sonner";
 
 export default function DelayedForm() {
-  const { open, setOpen } = useContext(ContactPopupContext);
+  const { open, setOpen, setHasSubmitted, handleContactPopupClose } =
+    useContext(ContactPopupContext);
 
   const firebase = useFirebase();
 
@@ -39,6 +40,7 @@ export default function DelayedForm() {
   });
 
   const handleSubmit = (data: z.infer<typeof contactFormSchema>) => {
+    setHasSubmitted(true);
     toast.promise(firebase.submitConnectForm(data), {
       loading: "Submitting...",
       success: "Submitted successfully!",
@@ -47,7 +49,15 @@ export default function DelayedForm() {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog
+      open={open}
+      onOpenChange={(newOpen) => {
+        setOpen(newOpen);
+        if (!newOpen) {
+          handleContactPopupClose();
+        }
+      }}
+    >
       <DialogContent>
         <DialogHeader className="font-bold">Connect with us</DialogHeader>
 
