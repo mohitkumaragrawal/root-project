@@ -37,7 +37,7 @@ export function Hero() {
         className="absolute inset-0 bg-cover z-[-1]"
         style={{
           backgroundImage:
-            "url(https://i.ibb.co/TqVtB28/0B7A3479.jpg), linear-gradient(to top, black, transparent)",
+            "url(https://i.ibb.co/cLD39rS/home-page-better.jpg), linear-gradient(to top, black, transparent)",
           // filter: "blur(2px)",
           backgroundBlendMode: "overlay",
           backgroundPosition: "center",

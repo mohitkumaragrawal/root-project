@@ -16,11 +16,11 @@ function ContactUs() {
           <p className="font-bold text-rose-500">For Vendors</p>
           <p className="flex items-center gap-1 text-gray-800">
             <MailIcon size={18} className="text-rose-500" />
-            vendors@root.com
+            contact@weddingcentral.co.in
           </p>
           <p className="flex items-center gap-1 text-gray-800">
             <PhoneIcon size={18} className="text-rose-500" />
-            +91 99999999
+            +91 9821200551
           </p>
         </div>
         {/* <div className="border-l-2 border-rose-300"></div> */}
@@ -28,11 +28,11 @@ function ContactUs() {
           <p className="font-bold text-rose-500">For Users</p>
           <p className="flex items-center gap-1 text-gray-800">
             <MailIcon size={18} className="text-rose-500" />
-            vendors@root.com
+            contact@weddingcentral.co.in
           </p>
           <p className="flex items-center gap-1 text-gray-800">
             <PhoneIcon size={18} className="text-rose-500" />
-            +91 99999999
+            +91 9821200551
           </p>
         </div>
       </div>
