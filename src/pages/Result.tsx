@@ -138,7 +138,7 @@ const MobilePricing = ({ data }: any) => {
         {/* <PricingAccord /> */}
         <div className="mt-2 flex p-3  justify-center border rounded-md">
           <div className="flex justify-center gap-3">
-            <a href={`mailto:${data.email} || "weddingcentral.in"`}>
+            <a href={`mailto:${data.email} || contact@weddingcentral.co.in`}>
               <Button
                 variant="default"
                 className="flex items-center justify-center gap-1 bg-rose-500 text-white"
@@ -147,7 +147,7 @@ const MobilePricing = ({ data }: any) => {
                 Message
               </Button>
             </a>
-            <a href="tel:8700921823">
+            <a href="tel:+919821200551">
               <Button
                 // variant="destructive"
                 className="flex items-center justify-center gap-1 bg-green-700"
@@ -188,7 +188,7 @@ const RightBar = ({ data }: any) => {
             {/* <PricingAccord /> */}
             <div className="mt-4 flex p-3  justify-center border border-1 rounded-md shadow-rose-300 ">
               <div className="flex justify-center gap-3">
-                <a href={`mailto:${data.email} || "weddingcentral.in"`}>
+                <a href={`mailto:${data.email} || "contact@weddingcentral.co.in"`}>
                   <Button
                     variant="default"
                     className="flex items-center justify-center gap-1 bg-rose-500 text-white"
@@ -197,7 +197,7 @@ const RightBar = ({ data }: any) => {
                     Message
                   </Button>
                 </a>
-                <a href="tel:8700921823">
+                <a href="tel:+919821200551">
                   <Button
                     // variant="destructive"
                     className="flex items-center justify-center gap-1 bg-green-700"
@@ -238,7 +238,7 @@ const ResultCarousel = ({ urls }: any) => {
                 <img
                   src={img}
                   alt="random"
-                  className="w-full h-96  md:h-[27rem] object-fill"
+                  className="w-full h-96  md:h-[27rem] object-cover"
                 />
               </CarouselItem>
             ))}
@@ -277,10 +277,10 @@ const AboutCard = ({ data }) => {
           <div className="flex items-center gap-2">
             <Contact className="mt-2 text-rose-500" />
             <a
-              href={`mailto:${data?.email || "weddingcentral.in"}`}
+              href={`mailto:${data?.email || "contact@weddingcentral.co.in"}`}
               className="bold text-black ml-2 underline mt-2"
             >
-              {data.email  || "weddingcentral.in"|| "weddingcentral.in"}
+              {data.email  || "contact@weddingcentral.co.in"}
             </a>
           </div>
         </div>
@@ -357,7 +357,7 @@ const AreaCard = ({ data }) => {
         </CardHeader>
 
         <CardContent>
-          <div className="grid grid-cols-1  gap-2 rounded h-64 overflow-scroll">
+          <div className="grid grid-cols-1  gap-2 rounded h-64 overflow-auto">
             {" "}
             {data.features.map((feature, index) => (
               <div key={index} className=" p-2 rounded">

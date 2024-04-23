@@ -86,7 +86,7 @@ function Gallery() {
                     <DialogTrigger className="w-full h-full">
                       <img
                         alt={`gallery ${index}`}
-                        className="block h-full w-full rounded-lg object-cover object-center"
+                        className="block h-80  w-full rounded-lg object-cover object-center"
                         src={imageUrl}
                       />
                     </DialogTrigger>
