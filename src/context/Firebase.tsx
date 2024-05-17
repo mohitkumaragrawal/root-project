@@ -104,10 +104,11 @@ export const FirebaseProvider = (props) => {
       }
 
       const objSnapshot = await getDocs(objQuery);
-      const venues = objSnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
+
+      const venues = objSnapshot.docs.map((doc) => {
+        const data = doc.data() as any;
+        return { ...data, id: doc.id };
+      });
 
       return venues;
     } catch (error) {
