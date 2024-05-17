@@ -7,14 +7,11 @@ export function PopuplarSearches() {
   const firebase = useFirebase();
   const [data, setData] = useState([]);
   useEffect(() => {
-
     const fetchData = async () => {
       try {
-        await firebase.viewVendors("venue").then((v) => {
+        await firebase.viewVendors("venue", 6).then((v) => {
           setData(v);
-
         });
-
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -39,9 +36,7 @@ export function PopuplarSearches() {
               />
               <div className="p-5 space-y-3">
                 <p className="font-bold">{search.title}</p>
-                <p className=" text-rose-600 cursor-pointer text-sm">
-                  Explore
-                </p>
+                <p className=" text-rose-600 cursor-pointer text-sm">Explore</p>
               </div>
             </div>
           </Link>

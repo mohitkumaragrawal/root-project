@@ -22,8 +22,8 @@ import {
   updateDoc,
   setDoc,
   deleteDoc,
+  limit as firestoreLimit,
 } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 import type { ContactFormSchema } from "@/lib/schema";
 
@@ -43,7 +43,6 @@ export const useFirebase = () => useContext(FirebaseContext);
 const firebaseApp = initializeApp(firebaseConfig);
 const firebaseAuth = getAuth(firebaseApp);
 const firestore = getFirestore(firebaseApp);
-const storage = getStorage(firebaseApp);
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -75,17 +74,41 @@ export const FirebaseProvider = (props) => {
   };
 
   // Function to view each vendor details [Argument example: photograph, venue]
-  const viewVendors = async (vendorType) => {
-    // console.log("cliked");
+  // const viewVendors = async (vendorType) => {
+  //   // console.log("cliked");
+  //   try {
+  //     const vendorRef = doc(firestore, "vendors", vendorType + "s");
+  //     const objRef = collection(vendorRef, vendorType);
+  //     const objSnapshot = await getDocs(objRef);
+  //     const venues = objSnapshot.docs.map((doc) => ({
+  //       ...doc.data(),
+  //       id: doc.id,
+  //     }));
+  //     // console.log("inside firebase", venues);
+  //     return venues;
+  //   } catch (error) {
+  //     console.error("Error viewing:", error);
+  //   }
+  // };
+
+  const viewVendors = async (vendorType, limit = -1) => {
     try {
       const vendorRef = doc(firestore, "vendors", vendorType + "s");
       const objRef = collection(vendorRef, vendorType);
-      const objSnapshot = await getDocs(objRef);
+
+      let objQuery;
+      if (limit !== -1) {
+        objQuery = query(objRef, firestoreLimit(limit));
+      } else {
+        objQuery = objRef;
+      }
+
+      const objSnapshot = await getDocs(objQuery);
       const venues = objSnapshot.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
       }));
-      // console.log("inside firebase", venues);
+
       return venues;
     } catch (error) {
       console.error("Error viewing:", error);
@@ -161,7 +184,11 @@ export const FirebaseProvider = (props) => {
     try {
       const vendorRef = doc(firestore, "vendors", "venues");
       const venueRef = collection(vendorRef, "venue");
-      const q = query(venueRef, where("city", "==", city), where("category", "==", category));
+      const q = query(
+        venueRef,
+        where("city", "==", city),
+        where("category", "==", category),
+      );
       const querySnapshot = await getDocs(q);
       const venues = querySnapshot.docs.map((doc) => ({
         ...doc.data(),
@@ -173,7 +200,6 @@ export const FirebaseProvider = (props) => {
       return [];
     }
   };
-
 
   return (
     <FirebaseContext.Provider
@@ -187,7 +213,7 @@ export const FirebaseProvider = (props) => {
         viewImages,
         submitConnectForm,
         readVendorById,
-        queryVenues
+        queryVenues,
       }}
     >
       {props.children}

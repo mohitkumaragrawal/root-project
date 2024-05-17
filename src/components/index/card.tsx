@@ -38,6 +38,8 @@ export function CardWithForm(props: Props) {
 
   const url = `/vendor/${vendor}/${id}`;
 
+  let rates = [];
+  if (Array.isArray(props.rates)) rates = props.rates;
   return (
     <Link to={url}>
       <Card className="">
@@ -58,7 +60,7 @@ export function CardWithForm(props: Props) {
 
         <CardContent>
           <div className="flex gap-8">
-            {props.rates.map((rate, index) => (
+            {rates.map((rate, index) => (
               <div className="space-y-1" key={index}>
                 <p className="text-sm text-gray-600">{rate.service}</p>
                 <p className="text-lg text-gray-800 flex items-center font-bold">

@@ -22,7 +22,7 @@ export const footerLinks = [
   {
     category: "Home",
     links: [
-      { name: "About RooT", link: "#" },
+      { name: "About", link: "#" },
       { name: "Careers", link: "#" },
       { name: "Contact Us", link: "#" },
       { name: "Site Map", link: "#" },

@@ -82,7 +82,7 @@ export function Navbar(props: { onOpen: () => void }) {
                   <ul>
                     {venueType.map((type) => (
                       <li className="my-2 text-sm text-gray-800 cursor-pointer hover:underline">
-                        {type.title}
+                        <Link to={type.link}>{type.title}</Link>
                       </li>
                     ))}
                   </ul>
@@ -92,7 +92,7 @@ export function Navbar(props: { onOpen: () => void }) {
                   <ul>
                     {venueCity.map((type) => (
                       <li className="my-2 text-sm text-gray-800 cursor-pointer hover:underline">
-                        {type.title}
+                        <Link to={type.link}>{type.title}</Link>
                       </li>
                     ))}
                   </ul>
